@@ -84,6 +84,7 @@ intents:
 
 
   - qpmc_Pending_pr_intent
+  - qpmc_pending_pr_items_intent
 
 
 
@@ -159,6 +160,7 @@ actions:
   - pr_rejection_action
 
   - qpmc_Pending_pr_action
+  - qpmc_pending_pr_items_action
 
 
 # ************************************************ Ticket form ***************************************************
@@ -234,12 +236,6 @@ slots:
     - type: from_entity
       entity: pr_number
     
-  ponumber:
-    type: float
-    influence_conversation: true
-    mappings:
-    - type: from_entity
-      entity: po_number
   
   pritemnumber:
     type: float
@@ -247,13 +243,6 @@ slots:
     mappings:
     - type: from_entity
       entity: pr_itemnumber
-
-  poitemnumber:
-    type: float
-    influence_conversation: true
-    mappings:
-    - type: from_entity
-      entity: po_itemnumber
 
   
 # ****************************************** Slots for raising ticket form ***************************************

@@ -21,9 +21,9 @@ mongodb_uri = (
 client = MongoClient(mongodb_uri)
 db = client["FinancialDetails"]
 
-from actions.api import prlist, pritems, pritemdetails, polist, poitems, poitemdetails
+# from actions.api import prlist, pritems, pritemdetails, polist, poitems, poitemdetails
 
-from actions.api import pending_prlist_qpmc
+from actions.api import pending_prlist_qpmc,pending_pr_item_list_qpmc
 
 ALLOWED_TICKET_TYPES = ["software", "hardware"]
 ALLOWED_HARDWARE_TYPES = ["monitor", "keyboard", "mouse", "printer", "scanner"]
@@ -1550,7 +1550,51 @@ class Pending_pr_qpmc(Action):
         dispatcher.utter_message(text=my_json)
 
         return []
+    
 
+# ************************************************* pending pr item list qpmc ************************************************************
+
+
+class PrItemsList(Action):
+
+    def name(self) -> Text:
+        return "qpmc_pending_pr_items_action"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        
+        global prno
+
+        prnotext = tracker.latest_message["text"]
+        prno = prnotext.split()[-1]
+
+        # prno = tracker.get_slot("prnumber")
+
+        print(prno)
+
+        itemlist = pending_pr_item_list_qpmc(prno)
+
+    
+
+        send = {
+            "requests": itemlist,
+            "msg": "The PR items lists are given below. Choose Any one to see the Item description",
+        }
+        my_json = json.dumps(send)
+
+
+        dispatcher.utter_message(text=my_json)
+
+
+
+        # dispatcher.utter_message(text=f"pr items is working {prno} \n {itemlist}")
+
+        return []
+
+
+
+# ************************************************* pending pr item list qpmc ************************************************************
 
 # class ApprovedPrMongoDB(Action):
 

@@ -335,6 +335,19 @@ rules:
   - intent: qpmc_Pending_pr_intent
   - action: qpmc_Pending_pr_action
 
+- rule: Give list of PR items list from QPMC system
+  steps:
+  - intent: qpmc_pending_pr_items_intent
+  - action: qpmc_pending_pr_items_action
+
+
+
+
+
+
+
+
+
 
 # - rule: fetching approved pr from mongo DB
 #   steps:
