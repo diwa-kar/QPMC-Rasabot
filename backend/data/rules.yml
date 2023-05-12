@@ -340,9 +340,33 @@ rules:
   - intent: qpmc_pending_pr_items_intent
   - action: qpmc_pending_pr_items_action
 
+# ************************************ pr items description  **********************************************************************************
+
+- rule: pr item description QPMC
+  steps:
+  - intent: qpmc_pending_pr_items_description_intent
+  - action: qpmc_pending_pr_items_description_action
 
 
+# ************************************ pr items description  **********************************************************************************
 
+# ************************************************** pr approval QPMC ***************************************************************************
+
+- rule: approving pr in the qpmc system
+  steps:
+  - intent: Qpmc_pr_approval_intent
+  - action: Qpmc_pr_approval_action
+
+# ************************************************** pr approval QPMC ***************************************************************************
+
+# ************************************************** pr rejection QPMC ***************************************************************************
+
+- rule: rejecting pr in the qpmc system
+  steps:
+  - intent: Qpmc_pr_rejection_intent
+  - action: Qpmc_pr_rejection_action
+
+# ************************************************** pr rejection QPMC ***************************************************************************
 
 
 

@@ -8592,22 +8592,109 @@ nlu:
 # ************************************ pending pr items QPMC **********************************************************************************
 
 
+# ************************************************ pending pr item description *********************************************************************
 
 
 
+- intent: qpmc_pending_pr_items_description_intent
+  examples: |
+    - PR item [1098](pr_itemnumber)
+    - pr item [220](pr_itemnumber)
+    - PR item no [1098](pr_itemnumber)
+    - pr item no [220](pr_itemnumber)
+    - PR item description for [220](pr_itemnumber)
+    - pr item description for [220](pr_itemnumber)
+    - give me PR item desc for [220](pr_itemnumber)
+    - give me pr item desc for [220](pr_itemnumber)
+    - give me Purchase Requisition item desc for item [220](pr_itemnumber)
+    - give me purchase requisition item desc ror item [220](pr_itemnumber)
+    - Purchase Requisition items desc for [220](pr_itemnumber)
+    - purchase requisition items desc for [220](pr_itemnumber)
 
 
 
+# ************************************************ pending pr item description *********************************************************************
+
+# ************************************************** pr approval QPMC ***************************************************************************
+
+- intent: Qpmc_pr_approval_intent
+  examples: |
+    - approve pr [10009092](pr_number)
+    - approve pr [10009092](pr_number)
+    - approve pr [10009092](pr_number)
+    - approve pr [10009092](pr_number)
+    - approve pr [10009092](pr_number)
+    - approve pr [10009092](pr_number)
+    - approve pr [10009092](pr_number)
+    - approve pr [10009092](pr_number)
+    - Approve pr [10009092](pr_number)
+    - Approve pr [10009092](pr_number)
+    - Approve pr [10009092](pr_number)
+    - Approve pr [10009092](pr_number)
+    - Approve pr [10009092](pr_number)
+    - Approve pr [10009092](pr_number)
+    - Approve pr [10009092](pr_number)
+    - Approve pr [10009092](pr_number)
+    - approve PR [10009092](pr_number)
+    - approve PR [10009092](pr_number)
+    - approve PR [10009092](pr_number)
+    - approve PR [10009092](pr_number)
+    - approve PR [10009092](pr_number)
+    - approve PR [10009092](pr_number)
+    - approve PR [10009092](pr_number)
+    - approve PR [10009092](pr_number)
+    - Approve PR [10009092](pr_number)
+    - Approve PR [10009092](pr_number)
+    - Approve PR [10009092](pr_number)
+    - Approve PR [10009092](pr_number)
+    - Approve PR [10009092](pr_number)
+    - Approve PR [10009092](pr_number)
+    - Approve PR [10009092](pr_number)
+    - Approve PR [10009092](pr_number)
+
+
+# ************************************************** pr approval QPMC ***************************************************************************
+
+# ************************************************** pr rejection QPMC ***************************************************************************
+
+- intent: Qpmc_pr_rejection_intent
+  examples: |
+    - reject pr [10009092](pr_number)
+    - reject pr [10009092](pr_number)
+    - reject pr [10009092](pr_number)
+    - reject pr [10009092](pr_number)
+    - reject pr [10009092](pr_number)
+    - reject pr [10009092](pr_number)
+    - reject pr [10009092](pr_number)
+    - reject pr [10009092](pr_number)
+    - Reject pr [10009092](pr_number)
+    - Reject pr [10009092](pr_number)
+    - Reject pr [10009092](pr_number)
+    - Reject pr [10009092](pr_number)
+    - Reject pr [10009092](pr_number)
+    - Reject pr [10009092](pr_number)
+    - Reject pr [10009092](pr_number)
+    - Reject pr [10009092](pr_number)
+    - reject PR [10009092](pr_number)
+    - reject PR [10009092](pr_number)
+    - reject PR [10009092](pr_number)
+    - reject PR [10009092](pr_number)
+    - reject PR [10009092](pr_number)
+    - reject PR [10009092](pr_number)
+    - reject PR [10009092](pr_number)
+    - reject PR [10009092](pr_number)
+    - Reject PR [10009092](pr_number)
+    - Reject PR [10009092](pr_number)
+    - Reject PR [10009092](pr_number)
+    - Reject PR [10009092](pr_number)
+    - Reject PR [10009092](pr_number)
+    - Reject PR [10009092](pr_number)
+    - Reject PR [10009092](pr_number)
+    - Reject PR [10009092](pr_number)
 
 
 
-
-
-
-
-
-
-
+# ************************************************** pr rejection QPMC ***************************************************************************
 
 
 

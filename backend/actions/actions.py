@@ -23,7 +23,7 @@ db = client["FinancialDetails"]
 
 # from actions.api import prlist, pritems, pritemdetails, polist, poitems, poitemdetails
 
-from actions.api import pending_prlist_qpmc,pending_pr_item_list_qpmc
+from actions.api import pending_prlist_qpmc,pending_pr_item_list_qpmc,pending_pr_item_description,qpmc_pending_pr_approval,qpmc_pending_pr_reject
 
 ALLOWED_TICKET_TYPES = ["software", "hardware"]
 ALLOWED_HARDWARE_TYPES = ["monitor", "keyboard", "mouse", "printer", "scanner"]
@@ -1555,7 +1555,7 @@ class Pending_pr_qpmc(Action):
 # ************************************************* pending pr item list qpmc ************************************************************
 
 
-class PrItemsList(Action):
+class PrItemsListQPMC(Action):
 
     def name(self) -> Text:
         return "qpmc_pending_pr_items_action"
@@ -1595,6 +1595,103 @@ class PrItemsList(Action):
 
 
 # ************************************************* pending pr item list qpmc ************************************************************
+
+# ************************************ pr items description  qpmc **********************************************************************************
+
+class PrItemDescriptonQPMC(Action):
+
+    def name(self) -> Text:
+        return "qpmc_pending_pr_items_description_action"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        
+        global pritemno, prno
+        pritemnotext = tracker.latest_message["text"]
+        pritemno = pritemnotext.split()[-1]
+        
+        # prno = tracker.get_slot("prnumber")
+        # pritemno = tracker.get_slot("pritemnumber")    
+
+        # print(f"{prno} {pritemno}")
+        # dispatcher.utter_message(text=f"pr item description is working! {prno} {pritemno}")
+        
+        details = pending_pr_item_description(prno,pritemno)
+
+        send = {
+            "msg": "Here is the Details of Purchase Requisition... ",
+            "details": {
+                "data":details,
+                }
+        }
+        
+        my_json = json.dumps(send)
+        dispatcher.utter_message(text=my_json)
+
+        return []
+
+
+# ************************************ pr items description  qpmc **********************************************************************************
+
+# ************************************************** pr approval QPMC ***************************************************************************
+
+class PendingPrApprovalQPMC(Action):
+
+    def name(self) -> Text:
+        return "Qpmc_pr_approval_action"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        
+        prno = tracker.get_slot("prnumber")
+
+        result = qpmc_pending_pr_approval(prno)
+
+        dispatcher.utter_message(text=f"{result}")
+
+        return []
+
+
+# ************************************************** pr approval QPMC ***************************************************************************
+
+# ************************************************** pr rejection QPMC ***************************************************************************
+
+class RejectingPrApproval(Action):
+
+    def name(self) -> Text:
+        return "Qpmc_pr_rejection_action"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        
+        prno = tracker.get_slot("prnumber")
+
+        result = qpmc_pending_pr_reject(prno)
+
+        dispatcher.utter_message(text=f"{result}")
+
+        return []
+
+
+
+
+# ************************************************** pr rejection QPMC ***************************************************************************
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # class ApprovedPrMongoDB(Action):
 
