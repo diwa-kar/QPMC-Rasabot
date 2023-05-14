@@ -1713,6 +1713,8 @@ class PendingPrApprovalQPMC(Action):
         
         prno = tracker.get_slot("prnumber")
 
+        print(f"{prno}")
+
         result = qpmc_pending_pr_approval(prno)
 
         dispatcher.utter_message(text=f"{result}")

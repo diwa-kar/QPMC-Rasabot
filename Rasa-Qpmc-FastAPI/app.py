@@ -251,32 +251,12 @@ async def qpmc_pending_pr_item_description(prno:int, pritemno:int):
     return { "item_desc" : details }
 
 
-@app.get('/qpmc_pending_pr_approval')
-async def qpmc_pending_pr_approval(prno:int):
 
-    url = 'http://hqs4hdm01.qpmc.qa:8000/sap/bc/srt/wsdl/flv_10002A1011D1/bndg_url/sap/bc/srt/scs/sap/zsd_pr_appr_rej?sap-client=200'
-    transport = HttpAuthenticated(username=username, password=password)
-    client = Client(url,transport=transport)
+@app.post('/qmpc_pending_pr_item_info')
+async def qmpc_pending_pr_item_info(request:Request):
 
-
-    result = client.service.ZmmPrApprRejFm('A',f'{prno}','ahamed')
-
-    return {"result" : result}
-
-@app.get('/qpmc_pending_pr_reject')
-async def qpmc_pending_pr_reject(prno:int):
-
-    url = 'http://hqs4hdm01.qpmc.qa:8000/sap/bc/srt/wsdl/flv_10002A1011D1/bndg_url/sap/bc/srt/scs/sap/zsd_pr_appr_rej?sap-client=200'
-    transport = HttpAuthenticated(username=username, password=password)
-    client = Client(url,transport=transport)
-
-
-    result = client.service.ZmmPrApprRejFm('R',f'{prno}','ahamed')
-
-    return {"result":result}
-
-@app.get('/qmpc_pending_pr_item_info')
-async def qmpc_pending_pr_item_info(prno:int):
+    data=await request.json()
+    prno=data['prno'].split(' ')[-1]
 
     url = f'http://172.16.195.52:8000/sap/opu/odata/sap/API_PURCHASEREQ_PROCESS_SRV/A_PurchaseRequisitionHeader(\'{prno}\')/to_PurchaseReqnItem?sap-client=200'
     username = 'KAAR'
@@ -349,8 +329,34 @@ async def qmpc_pending_pr_item_info(prno:int):
         item_list_description["PR item "+ i] = desc
     print(item_list_description)
 
-
     return item_list_description
+
+
+@app.get('/qpmc_pending_pr_approval')
+async def qpmc_pending_pr_approval(prno:int):
+
+    url = 'http://hqs4hdm01.qpmc.qa:8000/sap/bc/srt/wsdl/flv_10002A1011D1/bndg_url/sap/bc/srt/scs/sap/zsd_pr_appr_rej?sap-client=200'
+    transport = HttpAuthenticated(username=username, password=password)
+    client = Client(url,transport=transport)
+
+
+    result = client.service.ZmmPrApprRejFm('A',f'{prno}','ahamed')
+
+    return {"result" : result}
+
+@app.get('/qpmc_pending_pr_reject')
+async def qpmc_pending_pr_reject(prno:int):
+
+    url = 'http://hqs4hdm01.qpmc.qa:8000/sap/bc/srt/wsdl/flv_10002A1011D1/bndg_url/sap/bc/srt/scs/sap/zsd_pr_appr_rej?sap-client=200'
+    transport = HttpAuthenticated(username=username, password=password)
+    client = Client(url,transport=transport)
+
+
+    result = client.service.ZmmPrApprRejFm('R',f'{prno}','ahamed')
+
+    return {"result":result}
+
+    
 
 
 
