@@ -35,6 +35,8 @@ pritemno = ""
 pono = ""
 poitemno = ""
 
+Pending_PR_Flag = 0
+
 # ************************************ ticket raising form action ***********************************************
 
 
@@ -762,47 +764,6 @@ class ActionRemoteworkingPolicy(Action):
 
 
 # ************************************ individual Policy action  ********************************************************
-
-
-# *************************************** pr no and pr items in single sentence *****************************************
-
-
-class ActionPrNumberwithItem(Action):
-    def name(self) -> Text:
-        return "Pr_with_item_action"
-
-    def run(
-        self,
-        dispatcher: CollectingDispatcher,
-        tracker: Tracker,
-        domain: Dict[Text, Any],
-    ) -> List[Dict[Text, Any]]:
-        pr_itemnumber = tracker.get_slot("pritemnumber")
-        pr_number = tracker.get_slot("prnumber")
-
-        print(f"{pr_number}, {pr_itemnumber}")
-
-        pritemdesc = pritemdetails(pr_number, pr_itemnumber)
-        # print(pritemdesc)
-
-        send = {
-            "msg": "Here is the Details of Purchase Requisition... ",
-            "details": {
-                "data":pritemdesc,"flag":Pending_PR_Flag
-                }
-        }
-
-           
-        my_json = json.dumps(send)
-
-        
-        dispatcher.utter_message(text=my_json)
-
-        # dispatcher.utter_message(text=f"pr number with item is working {pr_number}, {pr_itemnumber} \n {pritemdesc} ")
-
-        return []
-
-# *************************************** pr no and pr items in single sentence *****************************************
 
 
 # *************************************** revenue and expense by the year ************************************
@@ -1539,12 +1500,17 @@ class Pending_pr_qpmc(Action):
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        
+        global Pending_PR_Flag 
+        Pending_PR_Flag = 1
 
         pendingpr = pending_prlist_qpmc()
         print(pendingpr)
 
         send = {"requests": pendingpr,
-                "msg": "The Pending PR lists are given below. Choose Any one to see PR Items",}
+                "msg": "The Pending PR lists are given below. Choose Any one to see PR Items",
+                
+                }
 
         my_json = json.dumps(send)
         dispatcher.utter_message(text=my_json)
@@ -1564,6 +1530,9 @@ class PrItemsListQPMC(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         
+        global Pending_PR_Flag 
+        Pending_PR_Flag = 1
+        
         global prno
 
         prnotext = tracker.latest_message["text"]
@@ -1582,6 +1551,8 @@ class PrItemsListQPMC(Action):
             "requests": itemlist,
             "msg": "The PR items lists are given below. Choose Any one to see the Item description",
         }
+
+        
         my_json = json.dumps(send)
 
 
@@ -1610,6 +1581,9 @@ class PrItemDescriptonQPMC(Action):
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        
+        global Pending_PR_Flag 
+        Pending_PR_Flag = 1
         
         global pritemno, prno
         pritemnotext = tracker.latest_message["text"]
@@ -1714,7 +1688,7 @@ class PrItemDescriptonQPMC(Action):
         send = {
             "msg": "Here is the Details of Purchase Requisition... ",
             "details": {
-                "data":details,
+                "data":details,"flag":Pending_PR_Flag
                 }
         }
         
@@ -1795,7 +1769,7 @@ class QPMCPrNumberwithItem(Action):
         send = {
             "msg": "Here is the Details of Purchase Requisition... ",
             "details": {
-                "data":pritemdesc
+                "data":pritemdesc,"flag":Pending_PR_Flag
                 }
         }
 
