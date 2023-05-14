@@ -10,14 +10,7 @@ const MiddleNavbar = (props) => {
   const [isSearchMode, setIsSearchMode] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
 
-  const [purchaseRequisitions, setPurchaseRequisitions] = useState([{
-    purchaseRequisition:"2214334324",
-    purchaseRequisition: entry.content[0]['m:properties'][0]['d:PurchaseRequisition'][0],
-    purchaseRequisitionType: entry.content[0]['m:properties'][0]['d:PurchaseRequisitionType'][0],
-    SourceDetermination: entry.content[0]['m:properties'][0]['d:SourceDetermination'][0],
-    date: entry.updated[0]
-  }]
-  );
+  const [purchaseRequisitions, setPurchaseRequisitions] = useState([]);
 
   const makeAPICall = async () => {
     try {
