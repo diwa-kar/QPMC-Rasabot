@@ -121,7 +121,7 @@ def qpmc_pending_pr_approval(prno):
     client = Client(url,transport=transport)
 
 
-    result = client.service.ZmmPrApprRejFm('A',f'{prno}','ahamed')
+    result = client.service.ZmmPrApprRejFm('A',f'{prno}','AHAMED')
 
     return result
 
@@ -136,7 +136,7 @@ def qpmc_pending_pr_reject(prno):
     client = Client(url,transport=transport)
 
 
-    result = client.service.ZmmPrApprRejFm('R',f'{prno}','ahamed')
+    result = client.service.ZmmPrApprRejFm('R',f'{prno}','AHAMED')
 
     return result
 

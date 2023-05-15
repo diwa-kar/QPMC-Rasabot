@@ -356,7 +356,44 @@ async def qpmc_pending_pr_reject(prno:int):
 
     return {"result":result}
 
-    
+
+@app.get('/qpmc_approved_pr_list_mongo')
+async def qpmc_approved_pr_list_mongo():
+
+    mongodb_uri = 'mongodb+srv://Bharathkumarkaar:1874924vbk@rasachatbot.ibvkwut.mongodb.net/test'
+    client = MongoClient(mongodb_uri)
+
+    db = client["QPMC_RasaChatbot"]
+    collection = db["Approved_PR"]
+    a=collection.find()
+
+    approved_pr_list = []
+
+    for i in a:
+        approved_pr_list.append(i['Purchase Requisition Number'])
+
+
+    return approved_pr_list
+
+
+@app.get('/qpmc_rejected_pr_list_mongo')
+async def qpmc_rejected_pr_list_mongo():
+
+    mongodb_uri = 'mongodb+srv://Bharathkumarkaar:1874924vbk@rasachatbot.ibvkwut.mongodb.net/test'
+    client = MongoClient(mongodb_uri)
+
+    db = client["QPMC_RasaChatbot"]
+    collection = db["Rejected_PR"]
+    a=collection.find()
+
+    rejected_pr_list=[]
+
+    for i in a:
+        rejected_pr_list.append(i['Purchase Requisition Number'])
+
+
+
+    return rejected_pr_list
 
 
 

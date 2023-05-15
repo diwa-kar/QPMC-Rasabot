@@ -1717,7 +1717,21 @@ class PendingPrApprovalQPMC(Action):
 
         result = qpmc_pending_pr_approval(prno)
 
-        dispatcher.utter_message(text=f"{result}")
+        Status_code = result["ExStatus"]
+
+        print(f"{Status_code}")
+
+        if Status_code == "ERROR":
+            dispatcher.utter_message(text=f"PR {prno} is already approved/rejected")
+        elif Status_code == "APPROVED":
+
+            db = client["QPMC_RasaChatbot"]
+            collection = db["Approved_PR"]
+            document = {"Purchase Requisition Number": int(prno), "Status":"Approved"}
+            result = collection.insert_one(document)
+
+            dispatcher.utter_message(text=f"PR {prno} Approved Successfully")
+
 
         return []
 
@@ -1739,7 +1753,19 @@ class RejectingPrApproval(Action):
 
         result = qpmc_pending_pr_reject(prno)
 
-        dispatcher.utter_message(text=f"{result}")
+        Status_code = result["ExStatus"]
+
+        if Status_code == "ERROR":
+            dispatcher.utter_message(text=f"PR {prno} is already approved/rejected")
+        elif Status_code == "REJECTED":
+            
+            db = client["QPMC_RasaChatbot"]
+            collection = db["Rejected_PR"]
+            document = {"Purchase Requisition Number": int(prno), "Status":"Rejected"}
+            result = collection.insert_one(document)
+            
+            dispatcher.utter_message(text=f"PR {prno} Rejected Successfully")
+
 
         return []
 
