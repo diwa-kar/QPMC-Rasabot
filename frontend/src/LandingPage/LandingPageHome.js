@@ -7,12 +7,9 @@ const LandingPageHome = () => {
   const navigate = useNavigate();
   return (
     <>
-      <div className="center-vertical bg-dark">
+      <div className="center-vertical">
         <div
-          className="about-us-section bg-light"
-          style={{
-            background: "grey",
-          }}
+          className="about-us-section"
         >
           <div
             className="container"

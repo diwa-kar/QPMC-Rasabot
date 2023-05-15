@@ -13,10 +13,10 @@ function App() {
       <Router>
         <Routes>
           {/* <Route path='/pending' element={<Notificationdisplay/>}/> */}
-          <Route path="/r" element={<LandingPageHome />} />
+          <Route path="/" element={<LandingPageHome />} />
           <Route path="/it-form" element={<ITform />} />
           {/* <Route path="/main-page" element={<MainPage />}> */}
-          <Route path="/" element={<MainPage />}>
+          <Route path="/main-page" element={<MainPage />}>
             <Route
               path="/main-page/notification"
               element={<Notificationdisplay />}

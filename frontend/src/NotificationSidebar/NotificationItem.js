@@ -5,41 +5,84 @@ const NotificationItem = (props) => {
   const navigate = useNavigate();
 
   const handleItemClick = (index) => {
-    console.log("handleItemClick clicked inside notification item");
-    console.log(props.purchaseRequisitions[index]);
-    props.updateIt(props.purchaseRequisitions[index]);
+    props.updateIt(props.cardItems[index]);
   };
   return (
-    <div>
-      <ul>
-        {props.purchaseRequisitions.map((pr, index) => (
-          <li
+    <div
+      style={{
+        margin: "0px 5px",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "flex-start",
+        height: "100%",
+        overflowY: "scroll",
+      }}
+      className="NotificationItem"
+    >
+      {props.cardItems &&
+        props.cardItems.map((card, index) => (
+          <div
             key={index}
             onClick={() => handleItemClick(index)}
             style={{
-              width: "100%",
+              width: "90%",
               height: "100px",
-              borderBottom: "1px solid #ccc",
               display: "flex",
-              alignItems: "center",
+              flexDirection: "column",
+              justifyContent: "space-evenly",
+              borderRadius: "6px",
+              alignItems: "flex-start",
+              background: "white",
+              boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
+              margin: "8px 0px",
+              padding: "8px 0px",
               paddingLeft: "10px",
+              borderTopLeftRadius: "0px",
+              borderBottomLeftRadius: "0px",
+              borderLeft: `4px solid ${
+                props.tab == "Pending"
+                  ? "goldenrod"
+                  : props.tab == "Approved"
+                  ? "#00ab00"
+                  : "#da2323"
+              }`,
+              cursor: "pointer",
             }}
           >
             <div
               style={{
                 display: "flex",
                 flexDirection: "column",
-                fontSize: "17px",
+                fontSize: "15px",
+                width: "100%",
+                margin: "10px 0px",
               }}
             >
-              <span style={{ fontWeight: "bold" }}>
-                Purchase Requisition Number: {pr.purchaseRequisition}
-              </span>
-              <span>{pr.purchaseRequisitionType}</span>
+              <span style={{ fontWeight: "bold" }}>{card.value}</span>
             </div>
-          </li>
+            {card.type ? (
+              <span
+                style={{
+                  textAlign: "left",
+                  width: "fit-content",
+                  padding: "1px 4px",
+                  letterSpacing: "0.5px",
+                  color: "white",
+                  fontWeight: "bold",
+                  fontSize: "6px",
+                  background: "#820000",
+                  borderRadius: "2px",
+                  textTransform: "uppercase",
+                }}
+              >
+                {card.type}
+              </span>
+            ) : (
+              <></>
+            )}
+          </div>
         ))}
-      </ul>
     </div>
   );
 };

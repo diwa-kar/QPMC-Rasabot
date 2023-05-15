@@ -256,12 +256,8 @@ async def qpmc_pending_pr_item_description(prno:int, pritemno:int):
 
 
 
-@app.post('/qmpc_pending_pr_item_info')
-async def qmpc_pending_pr_item_info(request:Request):
-
-    data=await request.json()
-    prno=data['prno'].split(' ')[-1]
-
+@app.get('/qmpc_pending_pr_item_info')
+async def qmpc_pending_pr_item_info(prno:int):
     url = f'http://172.16.195.52:8000/sap/opu/odata/sap/API_PURCHASEREQ_PROCESS_SRV/A_PurchaseRequisitionHeader(\'{prno}\')/to_PurchaseReqnItem?sap-client=200'
     username = 'KAAR'
     password = 'Qpmck@@r098'
@@ -317,19 +313,19 @@ async def qmpc_pending_pr_item_info(request:Request):
         js_obj = json.loads(js)
         flatjs = flatten(js_obj)
         desc = {}
-        desc['Purchase_Requisition_Number'] = flatjs['entry_content_m:properties_d:PurchaseRequisition']
-        desc['Purchase_Requisition_Item_Number'] = flatjs['entry_content_m:properties_d:PurchaseRequisitionItem']
-        desc['Purchase_Requisition_Release_Status'] = flatjs['entry_content_m:properties_d:PurReqnReleaseStatus']
-        desc['Purchase_Requisition_Item_Text'] = flatjs['entry_content_m:properties_d:PurchaseRequisitionItemText']
-        desc['Purchase_Requisition_Material_Group'] = flatjs['entry_content_m:properties_d:MaterialGroup']
-        desc['Requested_Quantity'] = flatjs['entry_content_m:properties_d:RequestedQuantity']
-        desc['Base_Unit'] = flatjs['entry_content_m:properties_d:BaseUnit']
-        desc['Purchase_Requisition_Price'] = flatjs['entry_content_m:properties_d:PurchaseRequisitionPrice']
+        desc['Purchase Requisition Number'] = flatjs['entry_content_m:properties_d:PurchaseRequisition']
+        desc['Purchase Requisition Item Number'] = flatjs['entry_content_m:properties_d:PurchaseRequisitionItem']
+        desc['Purchase Requisition Release Status'] = flatjs['entry_content_m:properties_d:PurReqnReleaseStatus']
+        desc['Purchase Requisition Item Text'] = flatjs['entry_content_m:properties_d:PurchaseRequisitionItemText']
+        desc['Purchase Requisition Material Group'] = flatjs['entry_content_m:properties_d:MaterialGroup']
+        desc['Requested Quantity'] = flatjs['entry_content_m:properties_d:RequestedQuantity']
+        desc['Base Unit'] = flatjs['entry_content_m:properties_d:BaseUnit']
+        desc['Purchase Requisition Price'] = flatjs['entry_content_m:properties_d:PurchaseRequisitionPrice']
         desc['Plant'] = flatjs['entry_content_m:properties_d:Plant']
-        desc['Company_Code'] = flatjs['entry_content_m:properties_d:CompanyCode']
-        desc['Processing_Status'] = flatjs['entry_content_m:properties_d:ProcessingStatus']
-        desc['Delivery_Date'] = flatjs['entry_content_m:properties_d:DeliveryDate']
-        desc['Creation_Date'] = flatjs['entry_content_m:properties_d:CreationDate']
+        desc['Company Code'] = flatjs['entry_content_m:properties_d:CompanyCode']
+        desc['Processing Status'] = flatjs['entry_content_m:properties_d:ProcessingStatus']
+        desc['Delivery Date'] = flatjs['entry_content_m:properties_d:DeliveryDate']
+        desc['Creation Date'] = flatjs['entry_content_m:properties_d:CreationDate']
         item_list_description["PR item "+ i] = desc
     print(item_list_description)
 
@@ -338,7 +334,7 @@ async def qmpc_pending_pr_item_info(request:Request):
 
 @app.get('/qpmc_pending_pr_approval')
 async def qpmc_pending_pr_approval(prno:int):
-
+    print(prno) 
     url = 'http://hqs4hdm01.qpmc.qa:8000/sap/bc/srt/wsdl/flv_10002A1011D1/bndg_url/sap/bc/srt/scs/sap/zsd_pr_appr_rej?sap-client=200'
     transport = HttpAuthenticated(username=username, password=password)
     client_sap = Client(url,transport=transport)
@@ -395,7 +391,7 @@ async def qpmc_pending_pr_reject(prno:int):
         document = {"Purchase Requisition Number": "PR "+f"{prno}", "Status":"Rejected"}
         res = collection.insert_one(document)
 
-        text =f"PR {prno} is Approved successfully"
+        text =f"PR {prno} is Rejected successfully"
 
 
     return {"result":result, "text": text}
