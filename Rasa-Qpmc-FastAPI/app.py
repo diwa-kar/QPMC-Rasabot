@@ -341,31 +341,68 @@ async def qpmc_pending_pr_approval(prno:int):
 
     url = 'http://hqs4hdm01.qpmc.qa:8000/sap/bc/srt/wsdl/flv_10002A1011D1/bndg_url/sap/bc/srt/scs/sap/zsd_pr_appr_rej?sap-client=200'
     transport = HttpAuthenticated(username=username, password=password)
-    client = Client(url,transport=transport)
+    client_sap = Client(url,transport=transport)
+
+    text = ""
+
+    result = client_sap.service.ZmmPrApprRejFm('A',f'{prno}','ahamed')
+
+    Status_code = result["ExStatus"]
+
+    print(f"{Status_code}")
+
+    if Status_code == "ERROR":
+
+        text =f"PR {prno} is already approved/rejected" 
 
 
-    result = client.service.ZmmPrApprRejFm('A',f'{prno}','ahamed')
+    elif Status_code == "APPROVED":
 
-    return {"result" : result}
+        db = client["QPMC_RasaChatbot"]
+        collection = db["Approved_PR"]
+        document = {"Purchase Requisition Number": "PR "+f"{prno}", "Status":"Approved"}
+        res = collection.insert_one(document)
+
+        text =f"PR {prno} is Approved successfully" 
+
+    
+
+    return {"result" : result, "text":text}
 
 @app.get('/qpmc_pending_pr_reject')
 async def qpmc_pending_pr_reject(prno:int):
 
     url = 'http://hqs4hdm01.qpmc.qa:8000/sap/bc/srt/wsdl/flv_10002A1011D1/bndg_url/sap/bc/srt/scs/sap/zsd_pr_appr_rej?sap-client=200'
     transport = HttpAuthenticated(username=username, password=password)
-    client = Client(url,transport=transport)
+    client_sap = Client(url,transport=transport)
 
 
-    result = client.service.ZmmPrApprRejFm('R',f'{prno}','ahamed')
+    result = client_sap.service.ZmmPrApprRejFm('R',f'{prno}','ahamed')
 
-    return {"result":result}
+    Status_code = result["ExStatus"]
+
+    print(f"{Status_code}")
+
+    text = ""
+
+    if Status_code == "ERROR":
+        text =f"PR {prno} is already approved/rejected" 
+
+    elif Status_code == "REJECTED":
+            
+        db = client["QPMC_RasaChatbot"]
+        collection = db["Rejected_PR"]
+        document = {"Purchase Requisition Number": "PR "+f"{prno}", "Status":"Rejected"}
+        res = collection.insert_one(document)
+
+        text =f"PR {prno} is Approved successfully"
+
+
+    return {"result":result, "text": text}
 
 
 @app.get('/qpmc_approved_pr_list_mongo')
 async def qpmc_approved_pr_list_mongo():
-
-    # mongodb_uri = 'mongodb+srv://Bharathkumarkaar:1874924vbk@rasachatbot.ibvkwut.mongodb.net/test'
-    # client = MongoClient(mongodb_uri)
 
     db = client["QPMC_RasaChatbot"]
     collection = db["Approved_PR"]
@@ -382,9 +419,6 @@ async def qpmc_approved_pr_list_mongo():
 
 @app.get('/qpmc_rejected_pr_list_mongo')
 async def qpmc_rejected_pr_list_mongo():
-
-    # mongodb_uri = 'mongodb+srv://Bharathkumarkaar:1874924vbk@rasachatbot.ibvkwut.mongodb.net/test'
-    # client = MongoClient(mongodb_uri)
 
     db = client["QPMC_RasaChatbot"]
     collection = db["Rejected_PR"]

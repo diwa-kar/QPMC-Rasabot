@@ -1727,7 +1727,7 @@ class PendingPrApprovalQPMC(Action):
 
             db = client["QPMC_RasaChatbot"]
             collection = db["Approved_PR"]
-            document = {"Purchase Requisition Number": int(prno), "Status":"Approved"}
+            document = {"Purchase Requisition Number": "PR "+f"{prno}", "Status":"Approved"}
             result = collection.insert_one(document)
 
             dispatcher.utter_message(text=f"PR {prno} Approved Successfully")
@@ -1740,7 +1740,7 @@ class PendingPrApprovalQPMC(Action):
 
 # ************************************************** pr rejection QPMC ***************************************************************************
 
-class RejectingPrApproval(Action):
+class RejectingPrQPMC(Action):
 
     def name(self) -> Text:
         return "Qpmc_pr_rejection_action"
@@ -1761,7 +1761,7 @@ class RejectingPrApproval(Action):
             
             db = client["QPMC_RasaChatbot"]
             collection = db["Rejected_PR"]
-            document = {"Purchase Requisition Number": int(prno), "Status":"Rejected"}
+            document = {"Purchase Requisition Number": "PR "+f"{prno}", "Status":"Rejected"}
             result = collection.insert_one(document)
             
             dispatcher.utter_message(text=f"PR {prno} Rejected Successfully")
