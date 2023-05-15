@@ -8247,6 +8247,147 @@ nlu:
 
 # ************************************************** pr rejection QPMC ***************************************************************************
 
+
+
+# *******************************************fetching approved pr from mongo for QPMC ***********************************************************************
+
+- intent: QPMC_Approved_pr_intent
+  examples: |
+    - Show me approved PR
+    - Show me my approved PR
+    - Display the approved
+    - approved PR
+    - show me the PR to apPRove
+    - show me approved PR
+    - can you show me the approved PR
+    - what are all the approved PR     
+    - Show me approved pr
+    - Show me my approved pr
+    - Display the approved
+    - approved pr
+    - show me the pr to approve
+    - show me approved purchase requisition
+    - can you show me the approved pr
+    - what are all the approved pr 
+    - what are pr are approved
+    - get me the approved pr
+    - can you get me the approved pr 
+    - Show me approved purchase requisition
+    - Show me my approved purchase requisition
+    - Display the approved
+    - approved purchase requisition
+    - show me the purchase requisition to appurchase requisitionove
+    - show me approved purchase requisition
+    - can you show me the approved purchase requisition
+    - what are all the approved purchase requisition 
+    - what are purchase requisition are approved
+    - get me the approved purchase requisition
+    - can you get me the approved purchase requisition 
+    - Show me approved Purchase Requisition
+    - Show me my approved Purchase Requisition
+    - Display the approved
+    - approved Purchase Requisition
+    - show me the Purchase Requisition to apPurchase Requisitionove
+    - show me approved Purchase Requisition
+    - can you show me the approved Purchase Requisition
+    - what are all the approved Purchase Requisition 
+    - what are Purchase Requisition are approved
+    - get me the approved Purchase Requisition
+    - can you get me the approved Purchase Requisition 
+    - Show me approved PR
+    - Show me my approved PR
+    - Display the approved
+    - approved PR
+    - show me the PR to approve
+    - show me approved PR
+    - can you show me the approved PR
+    - what are all the approved PR 
+    - what are PR are approved
+    - get me the approved PR
+    - can you get me the approved PR 
+    - what are PR are approved
+    - get me the approved PR
+    - can you get me the approved PR 
+
+
+
+# *******************************************fetching approved pr from mongo for QPMC ***********************************************************************
+
+
+# *******************************************fetching rejected pr from mongo for QPMC ***********************************************************************
+
+- intent: QPMC_Rejected_pr_intent
+  examples: |
+    - Show me rejected PR
+    - Show me my rejected PR
+    - Display the rejected
+    - rejected PR
+    - show me the PR to apPRove
+    - show me rejected PR
+    - can you show me the rejected PR
+    - what are all the rejected PR     
+    - Show me rejected pr
+    - Show me my rejected pr
+    - Display the rejected
+    - rejected pr
+    - show me the pr to approve
+    - show me rejected purchase requisition
+    - can you show me the rejected pr
+    - what are all the rejected pr 
+    - what are pr are rejected
+    - get me the rejected pr
+    - can you get me the rejected pr 
+    - Show me rejected purchase requisition
+    - Show me my rejected purchase requisition
+    - Display the rejected
+    - rejected purchase requisition
+    - show me the purchase requisition to appurchase requisitionove
+    - show me rejected purchase requisition
+    - can you show me the rejected purchase requisition
+    - what are all the rejected purchase requisition 
+    - what are purchase requisition are rejected
+    - get me the rejected purchase requisition
+    - can you get me the rejected purchase requisition 
+    - Show me rejected Purchase Requisition
+    - Show me my rejected Purchase Requisition
+    - Display the rejected
+    - rejected Purchase Requisition
+    - show me the Purchase Requisition to apPurchase Requisitionove
+    - show me rejected Purchase Requisition
+    - can you show me the rejected Purchase Requisition
+    - what are all the rejected Purchase Requisition 
+    - what are Purchase Requisition are rejected
+    - get me the rejected Purchase Requisition
+    - can you get me the rejected Purchase Requisition 
+    - Show me rejected PR
+    - Show me my rejected PR
+    - Display the rejected
+    - rejected PR
+    - show me the PR to apPRove
+    - show me rejected PR
+    - can you show me the rejected PR
+    - what are all the rejected PR 
+    - what are PR are rejected
+    - get me the rejected PR
+    - can you get me the rejected PR 
+    - what are PR are rejected
+    - get me the rejected PR
+    - can you get me the rejected PR 
+
+
+# *******************************************fetching rejected pr from mongo for QPMC ***********************************************************************
+
+
+
+
+
+
+
+
+
+
+
+
 # ************************************************* pr no with pr item ***************************************************************************
 
 - intent: Qpmc_Pending_Pr_with_item_intent

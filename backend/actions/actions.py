@@ -1811,164 +1811,67 @@ class QPMCPrNumberwithItem(Action):
         return []
 
 
-
 # ************************************************* pr no with pr item ***************************************************************************
 
 
+# *******************************************fetching approved pr from mongo for QPMC ***********************************************************************
 
+class QPMCApprovedPrMongoDB(Action):
 
+    def name(self) -> Text:
+        return "QPMC_Approved_pr_action"
 
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
+        db = client["QPMC_RasaChatbot"]
+        collection = db["Approved_PR"]
+        a=collection.find()
+        approved_pr_list=[]
+        for i in a:
+            approved_pr_list.append(i['Purchase Requisition Number'])
+        print(approved_pr_list)
 
+        send = {
+            "requests": approved_pr_list,
+            "msg": "The Approved PR lists are given below. Choose Any one to see PR Items",
+        }
+        my_json = json.dumps(send)
+        dispatcher.utter_message(text=my_json)
 
-
-
-
-
-# class ApprovedPrMongoDB(Action):
-
-#     def name(self) -> Text:
-#         return "Approved_pr_action"
-
-#     def run(self, dispatcher: CollectingDispatcher,
-#             tracker: Tracker,
-#             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-
-#         collection = db["PrStatus"]
-#         a = collection.find({'Status':'Approved'})
-
-#         approved_pr=[]
-
-#         for i in a:
-#             approved_pr.append(i['Purchase Requisition Number'])
-            
-#         print(approved_pr)
-
-#         send = {
-#             "requests": approved_pr,
-#             "msg": "The Approved PR lists are given below. Choose Any one to see PR Items",
-#         }
-#         my_json = json.dumps(send)
-#         dispatcher.utter_message(text=my_json)
-
-#         return []
+        return []
     
 
-# class RejectedPrMongoDB(Action):
-
-#     def name(self) -> Text:
-#         return "Rejected_pr_action"
-
-#     def run(self, dispatcher: CollectingDispatcher,
-#             tracker: Tracker,
-#             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-
-#         collection = db["PrStatus"]
-#         a = collection.find({'Status':'Rejected'})
-
-#         global Pending_PR_Flag 
-#         Pending_PR_Flag = 1
-
-#         rejected_pr=[]
-
-#         for i in a:
-#             rejected_pr.append(i['Purchase Requisition Number'])
-            
-#         send = {
-#             "requests": rejected_pr,
-#             "msg": "The Rejected PR lists are given below. Choose Any one to see PR Items",
-#         }
-#         my_json = json.dumps(send)
-#         dispatcher.utter_message(text=my_json)
-
-#         dispatcher.utter_message(text=f"rejected pr from mongoDB is working \n {rejected_pr}")
-
-#         return []
-    
+# *******************************************fetching approved pr from mongo for QPMC ***********************************************************************
 
 
-# # *************************************** pending approved rejected from qpmc ************************************************************ 
+# *******************************************fetching rejected pr from mongo for QPMC ***********************************************************************
 
+class QPMCRejectedPrMongoDB(Action):
 
+    def name(self) -> Text:
+        return "QPMC_Rejected_pr_action"
 
-# # ************************************ pr approval **********************************************************************************
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-# class PendingPrApproval(Action):
+        db = client["QPMC_RasaChatbot"]
+        collection = db["Rejected_PR"]
+        a=collection.find()
+        rejected_pr_list=[]
+        for i in a:
+            rejected_pr_list.append(i['Purchase Requisition Number'])
+        print(rejected_pr_list)
 
-#     def name(self) -> Text:
-#         return "pr_approval_action"
+        send = {
+            "requests": rejected_pr_list,
+            "msg": "The Approved PR lists are given below. Choose Any one to see PR Items",
+        }
+        my_json = json.dumps(send)
+        dispatcher.utter_message(text=my_json)
 
-#     def run(self, dispatcher: CollectingDispatcher,
-#             tracker: Tracker,
-#             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        
-#         prnumber = tracker.get_slot("prnumber")
+        return []
 
-#         collection = db["PrStatus"] 
-
-#         # define a query to find the document to update 
-#         query = {"Purchase Requisition Number": f"PR {prnumber}"}   
-
-#         print(query)
-
-#         # define the new values to update 
-#         new_values = {"$set": {"Status": "Approved"}} 
-
-#         # update the document 
-#         result = collection.update_one(query, new_values)
-        
-#         print(f"{prnumber}")
-
-#         dispatcher.utter_message(text=f"pr {prnumber} has been approved")
-
-#         global Pending_PR_Flag 
-#         Pending_PR_Flag = 0
-
-#         print(Pending_PR_Flag)
-
-#         return []
-
-
-# # ************************************ pr approval **********************************************************************************
-
-
-# # ************************************ pr rejection **********************************************************************************
-
-
-# class RejectingPrApproval(Action):
-
-#     def name(self) -> Text:
-#         return "pr_rejection_action"
-
-#     def run(self, dispatcher: CollectingDispatcher,
-#             tracker: Tracker,
-#             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        
-#         prnumber = tracker.get_slot("prnumber")
-
-#         collection = db["PrStatus"] 
-
-#         # define a query to find the document to update 
-#         query = {"Purchase Requisition Number": f"PR {prnumber}"}   
-
-#         print(query)
-
-#         # define the new values to update 
-#         new_values = {"$set": {"Status": "Rejected"}} 
-
-#         # update the document 
-#         result = collection.update_one(query, new_values)
-        
-#         print(f"{prnumber}")
-
-#         dispatcher.utter_message(text=f"pr {prnumber} has been rejected")
-
-#         global Pending_PR_Flag 
-#         Pending_PR_Flag = 0
-
-#         print(Pending_PR_Flag)
-
-#         return []
-
-
-# # ************************************ pr rejection **********************************************************************************
+# *******************************************fetching rejected pr from mongo for QPMC ***********************************************************************

@@ -37,6 +37,10 @@ password = 'Qpmck@@r098'
 # db = client["RecommendationSystem"]
 
 
+mongodb_uri = 'mongodb+srv://Bharathkumarkaar:1874924vbk@rasachatbot.ibvkwut.mongodb.net/test'
+client = MongoClient(mongodb_uri)
+
+
 
 
 # Initializing the fast API server
@@ -360,8 +364,8 @@ async def qpmc_pending_pr_reject(prno:int):
 @app.get('/qpmc_approved_pr_list_mongo')
 async def qpmc_approved_pr_list_mongo():
 
-    mongodb_uri = 'mongodb+srv://Bharathkumarkaar:1874924vbk@rasachatbot.ibvkwut.mongodb.net/test'
-    client = MongoClient(mongodb_uri)
+    # mongodb_uri = 'mongodb+srv://Bharathkumarkaar:1874924vbk@rasachatbot.ibvkwut.mongodb.net/test'
+    # client = MongoClient(mongodb_uri)
 
     db = client["QPMC_RasaChatbot"]
     collection = db["Approved_PR"]
@@ -379,8 +383,8 @@ async def qpmc_approved_pr_list_mongo():
 @app.get('/qpmc_rejected_pr_list_mongo')
 async def qpmc_rejected_pr_list_mongo():
 
-    mongodb_uri = 'mongodb+srv://Bharathkumarkaar:1874924vbk@rasachatbot.ibvkwut.mongodb.net/test'
-    client = MongoClient(mongodb_uri)
+    # mongodb_uri = 'mongodb+srv://Bharathkumarkaar:1874924vbk@rasachatbot.ibvkwut.mongodb.net/test'
+    # client = MongoClient(mongodb_uri)
 
     db = client["QPMC_RasaChatbot"]
     collection = db["Rejected_PR"]

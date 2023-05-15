@@ -379,46 +379,23 @@ rules:
 # ************************************************* pr no with pr item ***************************************************************************
 
 
+# *******************************************fetching approved pr from mongo for QPMC ***********************************************************************
+
+- rule: fetching QPMC  approved pr from mongo DB
+  steps:
+  - intent: QPMC_Approved_pr_intent
+  - action: QPMC_Approved_pr_action
 
 
+# *******************************************fetching approved pr from mongo for QPMC ***********************************************************************
 
 
+# *******************************************fetching rejected pr from mongo for QPMC ***********************************************************************
 
-# - rule: fetching approved pr from mongo DB
-#   steps:
-#   - intent: Approved_pr_intent
-#   - action: Approved_pr_action
-
-
-# - rule: fetching rejected pr from mongo DB
-#   steps:
-#   - intent: Rejected_pr_intent
-#   - action: Rejected_pr_action
-
-# ************************************************* fetching pending approved and rejected pr QPMC *********************************************
+- rule: fetching QPMC  approved pr from mongo DB
+  steps:
+  - intent: QPMC_Rejected_pr_intent
+  - action: QPMC_Rejected_pr_action
 
 
-
-# ************************************ pr approval **********************************************************************************
-
-
-# - rule: approving pr in the mongo DB
-#   steps:
-#   - intent: pr_approval_intent
-#   - action: pr_approval_action
-
-
-# ************************************ pr approval **********************************************************************************
-
-
-
-# ************************************ pr rejection **********************************************************************************
-
-
-# - rule: rejecting pr in the mongo DB
-#   steps:
-#   - intent: pr_rejection_intent
-#   - action: pr_rejection_action
-
-
-# ************************************ pr rejection **********************************************************************************
+# *******************************************fetching rejected pr from mongo for QPMC ***********************************************************************

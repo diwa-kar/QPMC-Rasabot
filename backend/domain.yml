@@ -91,6 +91,9 @@ intents:
   - Qpmc_pr_rejection_intent
 
   - Qpmc_Pending_Pr_with_item_intent
+  
+  - QPMC_Approved_pr_intent
+  - QPMC_Rejected_pr_intent
 
 
 
@@ -173,6 +176,9 @@ actions:
   - Qpmc_pr_rejection_action
 
   - Qpmc_Pending_Pr_with_item_action
+
+  - QPMC_Approved_pr_action
+  - QPMC_Rejected_pr_action
 
 
 # ************************************************ Ticket form ***************************************************
