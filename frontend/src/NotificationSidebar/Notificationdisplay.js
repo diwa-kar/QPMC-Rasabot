@@ -195,7 +195,8 @@ const Notificationdisplay = ({
                 className="Notificataion-display-detail"
                 key={index}
                 style={{
-                  background: "#f5f0b8",
+                  background: tab=='Pending' ? "#fffaec": tab=='Approved'?"#edfffb":"#ffecec",
+                  boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px"
                   // marginBottom: detailData.length == index + 1 ? "20px" : "0px",
                 }}
               >

@@ -670,7 +670,7 @@ const ChatBot = () => {
           <div
             className="chatscreen-header"
             style={{
-              background: darkMode ? "#12111B" : "rgb(170 129 61)",
+              background:"#303030",
             }}
           >
             <div className="chatscreen-header-logo">
@@ -692,7 +692,7 @@ const ChatBot = () => {
             className="chatscreen-content"
             ref={chatScreenContent}
             style={{
-              background: darkMode ? "#030C1A" : "#E8EBE4",
+              background: "white",
             }}
           >
             {chat.map((chatContent, index) => {
@@ -1030,7 +1030,7 @@ const ChatBot = () => {
             className="chatscreen-typing-container"
             style={{
               justifyContent: botTyping ? "flex-start" : "flex-end",
-              background: darkMode ? "#030C1A" : "#E8EBE4",
+              background: "white",
             }}
           >
             {botTyping ? (
@@ -1091,7 +1091,7 @@ const ChatBot = () => {
           <div
             className="chatscreen-footer"
             style={{
-              background: darkMode ? "#12111B" : "rgb(170 129 61)",
+              background: "#303030",
             }}
           >
             <form onSubmit={handleSubmit}>

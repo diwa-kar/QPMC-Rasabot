@@ -37,7 +37,7 @@ const Sidebar = ({ setTab, tab, setIsOpen, isOpen }) => {
           onClick={() => setTab("Pending")}
         >
           <i class="fa-solid fa-circle-stop"></i>
-          <span>PENDING PR</span>
+          <span>PENDING</span>
         </div>
         <div
           className="sidebar-items"
@@ -47,7 +47,7 @@ const Sidebar = ({ setTab, tab, setIsOpen, isOpen }) => {
           onClick={() => setTab("Approved")}
         >
           <i class="fa-solid fa-check-to-slot"></i>
-          <span>APPROVED PR</span>
+          <span>APPROVED</span>
         </div>
         <div
           className="sidebar-items"
@@ -185,7 +185,7 @@ const Sidebar = ({ setTab, tab, setIsOpen, isOpen }) => {
               <g id="Layer1"></g>
             </g>
           </svg> */}
-          <span>REJECTED PR</span>
+          <span>REJECTED</span>
         </div>
       </div>
     </div>

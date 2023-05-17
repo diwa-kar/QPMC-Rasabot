@@ -24,7 +24,7 @@
   cursor: pointer;
   padding: 7px 1px;
   border-radius: 50%;
-  background-color: rgb(170 129 61);
+  background-color: #303030;
   animation: appear 0.5s;
 }
 
@@ -71,6 +71,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background: #303030;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 0px 8px;
   border-top-right-radius: 4px;
   border-top-left-radius: 4px;
