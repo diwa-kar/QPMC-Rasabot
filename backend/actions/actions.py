@@ -1893,7 +1893,9 @@ class QpmcTicketRaiseMonitor(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         
+        db = client["QPMC_RasaChatbot"]
         collection = db["ITTickets"]
+        
         
         ticket_type = tracker.get_slot("ticket_type")
 
@@ -1948,7 +1950,9 @@ class QpmcTicketRaise(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         
+        db = client["QPMC_RasaChatbot"]
         collection = db["ITTickets"]
+        
         
         ticket_type = tracker.get_slot("ticket_type")
         
