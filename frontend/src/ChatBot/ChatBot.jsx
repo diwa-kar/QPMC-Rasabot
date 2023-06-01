@@ -33,7 +33,7 @@ const ChatBot = () => {
     {
       sender: "bot",
       sender_id: "Name",
-      msg: "Hi i am a ChatBot. What would you like me to do?",
+      msg: "Hi I am a ChatBot. How may I help you?!",
       chat_id: 2,
       actions: ["PR 100001232", "Item No 260"],
       links: [
@@ -659,8 +659,8 @@ const ChatBot = () => {
     <div
       className="chatbot-container"
       style={{
-        width: chatBotOpen ? "25vw" : "5vw",
-        height: chatBotOpen ? "70vh" : "",
+        width: chatBotOpen ? "30vw" : "5vw", 
+        height: chatBotOpen ? "85vh" : "",
         right: chatBotOpen ? "4px" : "22px",
         bottom: chatBotOpen ? "10px" : "35px",
       }}
@@ -670,7 +670,7 @@ const ChatBot = () => {
           <div
             className="chatscreen-header"
             style={{
-              background: darkMode ? "#12111B" : "rgb(170 129 61)",
+              background:"#303030",
             }}
           >
             <div className="chatscreen-header-logo">
@@ -692,7 +692,7 @@ const ChatBot = () => {
             className="chatscreen-content"
             ref={chatScreenContent}
             style={{
-              background: darkMode ? "#030C1A" : "#E8EBE4",
+              background: "white",
             }}
           >
             {chat.map((chatContent, index) => {
@@ -707,7 +707,7 @@ const ChatBot = () => {
                 >
                   {chatContent.sender == "bot" ? (
                     <span className="chatscreen-content-icon">
-                      <img src={ChatBotIcon} />
+                      {/* <img src={ChatBotIcon} /> */}
                     </span>
                   ) : (
                     <></>
@@ -1030,7 +1030,7 @@ const ChatBot = () => {
             className="chatscreen-typing-container"
             style={{
               justifyContent: botTyping ? "flex-start" : "flex-end",
-              background: darkMode ? "#030C1A" : "#E8EBE4",
+              background: "white",
             }}
           >
             {botTyping ? (
@@ -1091,7 +1091,7 @@ const ChatBot = () => {
           <div
             className="chatscreen-footer"
             style={{
-              background: darkMode ? "#12111B" : "rgb(170 129 61)",
+              background: "#303030",
             }}
           >
             <form onSubmit={handleSubmit}>

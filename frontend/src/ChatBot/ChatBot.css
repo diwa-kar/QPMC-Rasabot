@@ -24,7 +24,7 @@
   cursor: pointer;
   padding: 7px 1px;
   border-radius: 50%;
-  background-color: rgb(170 129 61);
+  background-color: #303030;
   animation: appear 0.5s;
 }
 
@@ -71,6 +71,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background: #303030;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 0px 8px;
   border-top-right-radius: 4px;
   border-top-left-radius: 4px;
@@ -89,6 +90,7 @@
 }
 .chatscreen-header-logo > img {
   width: 20%;
+  margin-left: -2%;
 }
 .chatscreen-header-menu > img {
   width: 120%;
@@ -102,7 +104,7 @@
   padding-right: 12px;
 }
 .chatscreen-header-mode > img {
-  width: 35%;
+  width: 22%;
 }
 
 .chatscreen-content {
@@ -177,15 +179,15 @@
   transform: translateY(2px);
 }
 .chatscreen-content-icon {
-  width: 5%;
+  width:3.5%;
   display: flex;
   /* align-items: center; */
   justify-content: center;
   /* background: lightgray; */
   /* padding: 9px 10px; */
-  padding: 1px;
+  /* padding: 1px;
   padding-top: 0px;
-  margin: 0px 2px;
+  margin: 0px 2px; */
 }
 
 /* .chatscreen-content-icon-user img{
@@ -429,7 +431,7 @@
   }
 }
 
-@media only screen and (min-width: 900px) {
+/* @media only screen and (min-width: 900px) {
   .chatscreen-lineChart {
     width: 100%;
     transform: translateX(0);
@@ -438,7 +440,7 @@
   .chatscreen-header-menu > img {
     width: 30%;
   }
-}
+} */
 
 .number-card h1 {
   font-size: 2em;
