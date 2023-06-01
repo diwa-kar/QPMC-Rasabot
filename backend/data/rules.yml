@@ -399,3 +399,18 @@ rules:
 
 
 # *******************************************fetching rejected pr from mongo for QPMC ***********************************************************************
+
+
+# ******************************************** Qpmc ticket raising ********************************************************************************************
+- rule: Qpmc ticket raise intent 
+  steps:
+  - intent: Qpmc_ticket_raise_intent
+  - action: Qpmc_ticket_raise_action
+
+
+- rule: Qpmc ticket raise intent for monitor 
+  steps:
+  - intent: Qpmc_ticket_raise_monitor_intent
+  - action: Qpmc_ticket_raise_monitor_action
+
+# ******************************************** Qpmc ticket raising ********************************************************************************************

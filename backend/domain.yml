@@ -96,6 +96,10 @@ intents:
   - QPMC_Rejected_pr_intent
 
 
+  - Qpmc_ticket_raise_intent
+  - Qpmc_ticket_raise_monitor_intent
+
+
 
 actions:
 
@@ -180,6 +184,9 @@ actions:
   - QPMC_Approved_pr_action
   - QPMC_Rejected_pr_action
 
+  - Qpmc_ticket_raise_action
+  - Qpmc_ticket_raise_monitor_action
+
 
 # ************************************************ Ticket form ***************************************************
 forms:
@@ -246,14 +253,23 @@ entities:
       regex: '[A-Za-z]+'
 
 
+
+  - ticket_type:
+      type: text
+  - hardware_type:
+      type: text
+  - monitor_inches:
+      type: regex
+      pattern: "^[0-9]{3,6}$"
+
+
 slots:
   prnumber:
     type: float
     influence_conversation: true
     mappings:
     - type: from_entity
-      entity: pr_number
-    
+      entity: pr_number  
   
   pritemnumber:
     type: float
@@ -261,6 +277,27 @@ slots:
     mappings:
     - type: from_entity
       entity: pr_itemnumber
+  
+  ticket_type:
+    type: text
+    influence_conversation: true
+    mappings:
+    - type: from_entity
+      entity: ticket_type
+  
+  hardware_type:
+    type: text
+    influence_conversation: true
+    mappings:
+    - type: from_entity
+      entity: hardware_type
+
+  monitor_inches:
+    type: float
+    influence_conversation: true
+    mappings:
+    - type: from_entity
+      entity: monitor_inches
 
   
 # ****************************************** Slots for raising ticket form ***************************************

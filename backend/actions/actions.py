@@ -15,6 +15,9 @@ from rasa_sdk import Tracker, FormValidationAction, Action
 from rasa_sdk.events import EventType
 from rasa_sdk.types import DomainDict
 
+
+import numpy as np
+
 mongodb_uri = (
     "mongodb+srv://Bharathkumarkaar:1874924vbk@rasachatbot.ibvkwut.mongodb.net/test"
 )
@@ -1875,3 +1878,137 @@ class QPMCRejectedPrMongoDB(Action):
         return []
 
 # *******************************************fetching rejected pr from mongo for QPMC ***********************************************************************
+
+
+
+# ******************************************** Qpmc ticket raising ********************************************************************************************
+class QpmcTicketRaiseMonitor(Action):
+
+    
+
+    def name(self) -> Text:
+        return "Qpmc_ticket_raise_monitor_action"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        
+        collection = db["ITTickets"]
+        
+        ticket_type = tracker.get_slot("ticket_type")
+
+        hardware_type = tracker.get_slot("hardware_type")
+
+        ticket_type_nlu = ["hardware","hrdware","hrdwre","hrdwr","hware"]
+
+        monitor_type_nlu = ["monitor","moni","mntr","moniter","monitr","mntor"]
+
+        
+        if ticket_type in ticket_type_nlu:
+            ticket_type = "hardware"
+        
+        if hardware_type in monitor_type_nlu:
+            hardware_type = "monitor"
+        
+        
+        monitor_inches = tracker.get_slot("monitor_inches")
+
+        random_number = np.random.randint(10000, 100000)
+        ticket_number = "TCKT"+str(random_number)
+        print(ticket_number)
+
+
+                # Dictionary to be inserted
+        data = {
+            "Ticket ID": ticket_number,
+            "Ticket type": "hardware",
+            "Hardware type": hardware_type,
+            "Monitor Size": monitor_inches
+        }
+
+        # Insert the dictionary into the collection
+        result = collection.insert_one(data)
+
+        if result.inserted_id:
+            print("ticket raised succesfully Inserted ID:", result.inserted_id)
+        else:
+            print("Failed to insert ticket to mongo")
+
+
+        dispatcher.utter_message(text=f"Your ticket has been raised with Ticket ID: {ticket_number} \nTicket type:{ticket_type} \nHardware type:{hardware_type} \nInches:{monitor_inches}")
+
+        return []
+    
+class QpmcTicketRaise(Action):
+
+    def name(self) -> Text:
+        return "Qpmc_ticket_raise_action"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        
+        collection = db["ITTickets"]
+        
+        ticket_type = tracker.get_slot("ticket_type")
+        
+        hardware_type = tracker.get_slot("hardware_type")
+
+        ticket_type_nlu = ["hardware","hrdware","hrdwre","hrdwr","hware"]
+
+        keyboard_type_nlu = ["keyboard","keybaord","kbrd","keybord","keybrd","kybrd"]
+
+        mouse_type_nlu = ["muse","muose","mse","mose","mouse"]
+
+        printer_type_nlu = ["printer","prntr","print","pntr","printor","prentor"]
+
+        scanner_type_nlu = ["scanner","scnr","scan","scaner","scanar","scanr"]
+
+
+        if hardware_type in keyboard_type_nlu:
+            hardware_type = "keyboard"
+        
+        elif hardware_type in mouse_type_nlu:
+            hardware_type = "mouse"
+        
+        elif hardware_type in printer_type_nlu:
+            hardware_type = "printer"
+
+        elif hardware_type in scanner_type_nlu:
+            hardware_type = "scanner"
+        
+
+        if ticket_type in ticket_type_nlu:
+            ticket_type = "hardware"
+
+
+
+        random_number = np.random.randint(10000, 100000)
+        ticket_number = "TCKT"+str(random_number)
+        print(ticket_number)
+
+        # Dictionary to be inserted
+        data = {
+            "Ticket ID": ticket_number,
+            "Ticket type": "hardware",
+            "Hardware type": hardware_type
+        }
+
+        # Insert the dictionary into the collection
+        result = collection.insert_one(data)
+
+        if result.inserted_id:
+            print("ticket raised succesfully Inserted ID:", result.inserted_id)
+        else:
+            print("Failed to insert ticket to mongo")
+
+
+        dispatcher.utter_message(text=f"Your ticket has been raised with Ticket ID: {ticket_number} \nTicket type:{ticket_type} \nHardware type:{hardware_type}")
+
+        return []
+
+
+
+
+
+# ******************************************** Qpmc ticket raising ********************************************************************************************
