@@ -28,8 +28,8 @@ db = client["FinancialDetails"]
 
 from actions.api import pending_prlist_qpmc,pending_pr_item_list_qpmc,pending_pr_item_description,qpmc_pending_pr_approval,qpmc_pending_pr_reject
 
-ALLOWED_TICKET_TYPES = ["software", "hardware"]
-ALLOWED_HARDWARE_TYPES = ["monitor", "keyboard", "mouse", "printer", "scanner"]
+# ALLOWED_TICKET_TYPES = ["software", "hardware"]
+# ALLOWED_HARDWARE_TYPES = ["monitor", "keyboard", "mouse", "printer", "scanner"]
 
 Pending_PR_Flag = 0
 
@@ -43,41 +43,41 @@ Pending_PR_Flag = 0
 # ************************************ ticket raising form action ***********************************************
 
 
-class ValidateSimpleTicketForm(FormValidationAction):
-    def name(self) -> Text:
-        return "validate_simple_ticket_form"
+# class ValidateSimpleTicketForm(FormValidationAction):
+#     def name(self) -> Text:
+#         return "validate_simple_ticket_form"
 
-    def validate_ticket_type(
-        self,
-        slot_value: Any,
-        dispatcher: CollectingDispatcher,
-        tracker: Tracker,
-        domain: DomainDict,
-    ) -> Dict[Text, Any]:
-        # print("iniside form ticket type validation")
-        # a = slot_value.lower()
-        # print(a)
+#     def validate_ticket_type(
+#         self,
+#         slot_value: Any,
+#         dispatcher: CollectingDispatcher,
+#         tracker: Tracker,
+#         domain: DomainDict,
+#     ) -> Dict[Text, Any]:
+#         # print("iniside form ticket type validation")
+#         # a = slot_value.lower()
+#         # print(a)
 
-        if slot_value.lower() not in ALLOWED_TICKET_TYPES:
-            dispatcher.utter_message(text=f"There are only software/hardware types")
-            return {"ticket_type": None}
-        dispatcher.utter_message(text=f"OK! You want to raise a {slot_value} ticket.")
-        return {"ticket_type": slot_value}
+#         if slot_value.lower() not in ALLOWED_TICKET_TYPES:
+#             dispatcher.utter_message(text=f"There are only software/hardware types")
+#             return {"ticket_type": None}
+#         dispatcher.utter_message(text=f"OK! You want to raise a {slot_value} ticket.")
+#         return {"ticket_type": slot_value}
 
-    def validate_hardware_type(
-        self,
-        slot_value: Any,
-        dispatcher: CollectingDispatcher,
-        tracker: Tracker,
-        domain: DomainDict,
-    ) -> Dict[Text, Any]:
-        if slot_value.lower() not in ALLOWED_HARDWARE_TYPES:
-            dispatcher.utter_message(
-                text=f"Allowed hardware types are {'/'.join(ALLOWED_HARDWARE_TYPES)}."
-            )
-            return {"hardware_type": None}
-        dispatcher.utter_message(text=f"{slot_value} issue is recognized.")
-        return {"hardware_type": slot_value}
+#     def validate_hardware_type(
+#         self,
+#         slot_value: Any,
+#         dispatcher: CollectingDispatcher,
+#         tracker: Tracker,
+#         domain: DomainDict,
+#     ) -> Dict[Text, Any]:
+#         if slot_value.lower() not in ALLOWED_HARDWARE_TYPES:
+#             dispatcher.utter_message(
+#                 text=f"Allowed hardware types are {'/'.join(ALLOWED_HARDWARE_TYPES)}."
+#             )
+#             return {"hardware_type": None}
+#         dispatcher.utter_message(text=f"{slot_value} issue is recognized.")
+#         return {"hardware_type": slot_value}
 
 
 # ************************************ ticket raising form action ***********************************************

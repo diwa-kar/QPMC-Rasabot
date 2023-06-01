@@ -199,10 +199,6 @@ forms:
 
 entities:
 
-  - ticket_type:
-      type: text
-  - hardware_type:
-      type: text
       
   - pr_number:
       type: regex
@@ -264,6 +260,7 @@ entities:
 
 
 slots:
+
   prnumber:
     type: float
     influence_conversation: true
@@ -278,6 +275,10 @@ slots:
     - type: from_entity
       entity: pr_itemnumber
   
+
+
+  
+# ****************************************** Slots for raising ticket form ***************************************
   ticket_type:
     type: text
     influence_conversation: true
@@ -298,21 +299,6 @@ slots:
     mappings:
     - type: from_entity
       entity: monitor_inches
-
-  
-# ****************************************** Slots for raising ticket form ***************************************
-  ticket_type:
-    type: text
-    influence_conversation: true
-    mappings:
-    - type: from_entity
-      entity: ticket_type
-  hardware_type:
-    type: text
-    influence_conversation: true
-    mappings:
-    - type: from_entity
-      entity: hardware_type
 
 # ****************************************** Slots for raising ticket form ***************************************
 
