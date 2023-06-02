@@ -65,6 +65,7 @@ app.add_middleware(
 class User(BaseModel):
     prno : int
     pritemno : int
+    WfRequestId:str
 
 
 @app.get('/')
@@ -435,7 +436,7 @@ async def qpmc_rejected_pr_list_mongo():
 async def qpmc_leave_reuqest_sf():
 
     username = 'kaaradmin@qatarprimaT1'
-    password = 'Kaar@qpmc123'
+    password = 'Qpmc@456'
 
      # extranct date from the sentence
     def extract_date_from_sentence(sentence):
@@ -500,6 +501,29 @@ async def qpmc_leave_reuqest_sf():
     print(pendingleave)
 
     return pendingleave
+
+
+@app.get('/qpmc_accept_leave_reuqest_sf')
+async def qpmc_accept_leave_reuqest_sf(WfRequestId:str):
+
+     # Set the SAP URL and credentials
+    url = f'https://api2preview.sapsf.eu/odata/v2/approveWfRequest?wfRequestId={WfRequestId}&comment=Approved'
+    username = 'kaaradmin@qatarprimaT1'
+    password = 'Qpmc@456'
+    # Create a session and set the authorization header
+    session = requests.Session()
+    session.auth = (username, password)
+    # Send a GET request to the SAP system
+    response = session.post(url)
+    # Print the response status code and content
+    print(response.status_code)
+
+    if response.status_code == 200:
+        res = f"Leave Request ({WfRequestId}) has been approved"
+    else:
+        res = f"Leave Request ({WfRequestId}) has been already approved and moved to higher level approver"
+
+    return res
 
 
 
