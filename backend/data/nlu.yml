@@ -10341,3 +10341,56 @@ nlu:
 
 
 # ****************************************** fetching pending leave request form SF ******************************************
+
+
+# ****************************************** accepting pending leave from SF *****************************************************
+
+- intent: Accept_Leave_Request_SF_intent
+  examples: |
+    - approve leave request [14805L](WfRequestId)
+    - approve leave request [14805L](WfRequestId)
+    - approve leave request [15078L](WfRequestId)
+    - approve leave request [15078L](WfRequestId)
+    - approve leave request [15078L](WfRequestId)
+    - approve leave request [15078L](WfRequestId)
+    - approve leave request [15078L](WfRequestId)
+    - approve leave request [15078L](WfRequestId)
+    - approve leave request [15078L](WfRequestId)
+    - Approve Leave request [15078L](WfRequestId)
+    - Approve Leave request [15078L](WfRequestId)
+    - Approve Leave request [15078L](WfRequestId)
+    - Approve Leave request [15078L](WfRequestId)
+    - Approve Leave request [15078L](WfRequestId)
+    - Approve Leave request [15078L](WfRequestId)
+    - Approve Leave request [15078L](WfRequestId)
+    - approve Leave request [15078L](WfRequestId)
+    - approve Leave request [15078L](WfRequestId)
+    - approve Leave request [15078L](WfRequestId)
+    - approve Leave request [15078L](WfRequestId)
+    - approve Leave request [15078L](WfRequestId)
+    - approve Leave request [15078L](WfRequestId)
+    - approve Leave request [15078L](WfRequestId)
+    - approve Leave request [15078L](WfRequestId)
+    - Approve Leave request [15078L](WfRequestId)
+    - Approve Leave request [15078L](WfRequestId)
+    - Approve Leave request [15078L](WfRequestId)
+    - Approve Leave request [15078L](WfRequestId)
+    - Approve Leave request [15078L](WfRequestId)
+    - Approve Leave request [15078L](WfRequestId)
+    - Approve Leave request [15078L](WfRequestId)
+    - Approve Leave request [15078L](WfRequestId)
+    - Approve Leave request [15078L](WfRequestId)
+    - Approve Leave request [15078L](WfRequestId)
+    - Approve Leave request [15078L](WfRequestId)
+    - Approve Leave request [15078L](WfRequestId)
+    - Approve Leave request [15078L](WfRequestId)
+    - Approve Leave request [15078L](WfRequestId)
+    - Approve Leave request [15078L](WfRequestId)
+    - approve Leave request [25078L](WfRequestId)
+    - approve Leave request [21278L](WfRequestId)
+    - approve Leave request [22228L](WfRequestId)
+    - approve Leave request [23338L](WfRequestId)
+    - Approve Leave request [22988L](WfRequestId)
+
+
+# ****************************************** accepting pending leave from SF ****************************************************

@@ -218,3 +218,31 @@ def Leave_Request_SF():
     return pendingleave
 
 # ****************************************** fetching pending leave request form SF ******************************************
+
+
+# ****************************************** accepting pending leave from SF *****************************************************
+
+def Accept_leave_req_SF(WfRequestId):
+    
+
+    # Set the SAP URL and credentials
+    url = f'https://api2preview.sapsf.eu/odata/v2/approveWfRequest?wfRequestId={WfRequestId}&comment=Approved'
+    username = 'kaaradmin@qatarprimaT1'
+    password = 'Qpmc@456'
+    # Create a session and set the authorization header
+    session = requests.Session()
+    session.auth = (username, password)
+    # Send a GET request to the SAP system
+    response = session.post(url)
+    # Print the response status code and content
+    print(response.status_code)
+
+    if response.status_code == 200:
+        res = f"Leave Request ({WfRequestId}) has been approved"
+    else:
+        res = f"Leave Request ({WfRequestId}) has been already approved and moved to higher level approver"
+
+    return res
+
+
+# ****************************************** accepting pending leave from SF *****************************************************

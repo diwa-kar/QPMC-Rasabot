@@ -424,3 +424,12 @@ rules:
   - action: Leave_Request_SF_action
 
 # ****************************************** fetching pending leave request form SF ******************************************
+
+# ****************************************** accepting pending leave from SF *****************************************************
+
+- rule: Accept leave request from sf
+  steps:
+  - intent: Accept_Leave_Request_SF_intent
+  - action: Accept_Leave_Request_SF_action
+
+# ****************************************** accepting pending leave from SF *****************************************************
