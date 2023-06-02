@@ -10294,3 +10294,50 @@ nlu:
 
 
 # ****************************************** ticket raise other than monitor **************************************************
+
+
+# ****************************************** fetching pending leave request form SF ******************************************
+
+- intent: Leave_Request_SF
+  examples: |
+    - show me pending leave to approve
+    - pending leave
+    - what are my pending leave
+    - what are pending leave to approve
+    - what are pending leave
+    - can you show me my pending leave
+    - get me my pending leave
+    - display pending leave
+    - display my pending leave
+    - what are all pending leave
+    - display pending leave to approve
+    - display my pending leave to approve
+    - show me leave requests to approve
+    - leave requests
+    - what are my leave requests
+    - what are leave requests to approve
+    - what are leave requests
+    - can you show me my leave requests
+    - get me my leave requests
+    - display leave requests
+    - display my leave requests
+    - what are all leave requests
+    - display leave requests to approve
+    - display my leave requests to approve
+    - show me pending leave request to approve
+    - pending leave request
+    - what are my pending leave request
+    - what are pending leave request to approve
+    - what are pending leave request
+    - can you show me my pending leave request
+    - get me my pending leave request
+    - display pending leave request
+    - display my pending leave request
+    - what are all pending leave request
+    - display pending leave request to approve
+    - display my pending leave request to approve
+
+
+
+
+# ****************************************** fetching pending leave request form SF ******************************************

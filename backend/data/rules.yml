@@ -414,3 +414,13 @@ rules:
   - action: Qpmc_ticket_raise_monitor_action
 
 # ******************************************** Qpmc ticket raising ********************************************************************************************
+
+
+# ****************************************** fetching pending leave request form SF ******************************************
+
+- rule: Fetch leave request from SF
+  steps:
+  - intent: Leave_Request_SF
+  - action: Leave_Request_SF_action
+
+# ****************************************** fetching pending leave request form SF ******************************************

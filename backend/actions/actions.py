@@ -26,7 +26,7 @@ db = client["FinancialDetails"]
 
 # from actions.api import prlist, pritems, pritemdetails, polist, poitems, poitemdetails
 
-from actions.api import pending_prlist_qpmc,pending_pr_item_list_qpmc,pending_pr_item_description,qpmc_pending_pr_approval,qpmc_pending_pr_reject
+from actions.api import pending_prlist_qpmc,pending_pr_item_list_qpmc,pending_pr_item_description,qpmc_pending_pr_approval,qpmc_pending_pr_reject,Leave_Request_SF
 
 # ALLOWED_TICKET_TYPES = ["software", "hardware"]
 # ALLOWED_HARDWARE_TYPES = ["monitor", "keyboard", "mouse", "printer", "scanner"]
@@ -2013,6 +2013,26 @@ class QpmcTicketRaise(Action):
 
 
 
-
-
 # ******************************************** Qpmc ticket raising ********************************************************************************************
+
+
+# ****************************************** fetching pending leave request form SF ******************************************
+
+class LeaveRequestSF(Action):
+
+    def name(self) -> Text:
+        return "Leave_Request_SF_action"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        
+        leave_req_list = Leave_Request_SF()
+
+        dispatcher.utter_message(text=f"{leave_req_list}")
+
+        return []
+
+
+
+# ****************************************** fetching pending leave request form SF ******************************************

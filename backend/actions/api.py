@@ -6,6 +6,8 @@ from flatten_json import flatten
 from suds.client import Client
 from suds.transport.https import HttpAuthenticated
 
+import re
+
 
 username = 'KAAR'
 password = 'Qpmck@@r098'
@@ -141,3 +143,78 @@ def qpmc_pending_pr_reject(prno):
     return result
 
 # ************************************************** pr rejection QPMC ***************************************************************************
+
+# ****************************************** fetching pending leave request form SF ******************************************
+
+def Leave_Request_SF():
+
+    username = 'kaaradmin@qatarprimaT1'
+    password = 'Qpmc@456'
+
+    # extranct date from the sentence
+    def extract_date_from_sentence(sentence):
+        pattern = r"\((.*?)\)"  # Regex pattern to match text within parentheses
+        match = re.search(pattern, sentence)  # Search for the pattern in the sentence
+
+        if match:
+            date_within_parentheses = match.group(1)  # Extract the text within parentheses
+            return date_within_parentheses
+        else:
+            return None
+
+    # extracting words before paranthesis to find Leave Type
+    def words_before_parenthesis(sentence):
+        # Find the index of the opening parenthesis
+        parenthesis_index = sentence.find("(")
+
+        if parenthesis_index != -1:
+            words = sentence[:parenthesis_index][:-1]
+            return words
+        else:
+            return None
+
+    # picking up name from the sentece 
+    def pick_name_from_sentence(sentence):
+        colon_index = sentence.find(":")
+        
+        if colon_index != -1:
+            words = sentence[colon_index+2:]
+            return words
+        else:
+            return None
+
+    url = 'https://api2preview.sapsf.eu/odata/v2/Todo?$filter=categoryId%20eq%20%2718%27'
+    session = requests.Session()
+    session.auth = (username, password)
+    # Send a GET request to the SAP system
+    response = session.get(url)
+    # Print the response status code and content
+    obj = response.content
+    objstr = str(obj, 'UTF-8')
+    obj2 = xmltodict.parse(objstr)
+    js = json.dumps(obj2)
+    js_obj = json.loads(js)
+    flatjs = flatten(js_obj)
+
+    pendingleave=[]
+    i=0 
+    while True:
+        try:
+            d={
+            'subject_id':flatjs[f'feed_entry_content_m:properties_d:todos_d:element_d:entries_d:element_{i}_d:subjectId']+"L",
+            'subject_name':pick_name_from_sentence(flatjs[f'feed_entry_content_m:properties_d:todos_d:element_d:entries_d:element_{i}_d:subjectFullName']),
+            'leave_duration': extract_date_from_sentence(flatjs[f'feed_entry_content_m:properties_d:todos_d:element_d:entries_d:element_{i}_d:subjectFullName']),
+            'leave_type': words_before_parenthesis(flatjs[f'feed_entry_content_m:properties_d:todos_d:element_d:entries_d:element_{i}_d:subjectFullName'])
+            
+            
+            }
+            pendingleave.append(d)
+            i+=1
+        except: 
+            break
+  
+    print(pendingleave)
+
+    return pendingleave
+
+# ****************************************** fetching pending leave request form SF ******************************************

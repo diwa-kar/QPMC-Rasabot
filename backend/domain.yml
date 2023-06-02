@@ -99,6 +99,8 @@ intents:
   - Qpmc_ticket_raise_intent
   - Qpmc_ticket_raise_monitor_intent
 
+  - Leave_Request_SF
+
 
 
 actions:
@@ -186,6 +188,8 @@ actions:
 
   - Qpmc_ticket_raise_action
   - Qpmc_ticket_raise_monitor_action
+
+  - Leave_Request_SF_action
 
 
 # ************************************************ Ticket form ***************************************************
