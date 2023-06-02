@@ -265,6 +265,10 @@ entities:
       pattern: "^[0-9]{3,6}$"
 
 
+  - WfRequestId:
+      type: text
+
+
 slots:
 
   prnumber:
@@ -397,6 +401,18 @@ slots:
     mappings:
     - type: from_entity
       entity: tax_expense
+
+  # ****************************************** accepting pending leave from SF *****************************************************
+
+  WfRequestId:
+    type: text
+    influence_conversation: true
+    mappings:
+    - type: from_entity
+      entity: WfRequestId
+
+
+  # ****************************************** accepting pending leave from SF *****************************************************
 
 # ****************************************** Slots for expense subcategory  ***************************************
 
