@@ -433,3 +433,13 @@ rules:
   - action: Accept_Leave_Request_SF_action
 
 # ****************************************** accepting pending leave from SF *****************************************************
+
+# ****************************************** reject leave from SF ****************************************************
+
+- rule: Reject leave request from sf
+  steps:
+  - intent: Reject_Leave_Request_SF_intent
+  - action: Reject_Leave_Request_SF_action
+
+
+# ****************************************** reject leave from SF ****************************************************

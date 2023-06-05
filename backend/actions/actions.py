@@ -26,7 +26,7 @@ db = client["FinancialDetails"]
 
 # from actions.api import prlist, pritems, pritemdetails, polist, poitems, poitemdetails
 
-from actions.api import pending_prlist_qpmc,pending_pr_item_list_qpmc,pending_pr_item_description,qpmc_pending_pr_approval,qpmc_pending_pr_reject,Leave_Request_SF,Accept_leave_req_SF
+from actions.api import pending_prlist_qpmc,pending_pr_item_list_qpmc,pending_pr_item_description,qpmc_pending_pr_approval,qpmc_pending_pr_reject,Leave_Request_SF,Accept_leave_req_SF,Reject_leave_req_SF
 
 # ALLOWED_TICKET_TYPES = ["software", "hardware"]
 # ALLOWED_HARDWARE_TYPES = ["monitor", "keyboard", "mouse", "printer", "scanner"]
@@ -2059,3 +2059,26 @@ class LeaveRequestSFAccept(Action):
 
 
 # ****************************************** accepting pending leave from SF *****************************************************
+
+# ****************************************** reject leave from SF ****************************************************
+
+class LeaveRequestSFReject(Action):
+
+    def name(self) -> Text:
+        return "Reject_Leave_Request_SF_action"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        
+        WfRequestId = tracker.get_slot("WfRequestId")
+
+        res = Reject_leave_req_SF(WfRequestId)
+
+
+        dispatcher.utter_message(text=f"{res}")
+
+        return []
+
+
+# ****************************************** reject leave from SF ****************************************************

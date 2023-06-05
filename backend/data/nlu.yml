@@ -10394,3 +10394,56 @@ nlu:
 
 
 # ****************************************** accepting pending leave from SF ****************************************************
+
+# ****************************************** reject leave from SF ****************************************************
+
+
+- intent: Reject_Leave_Request_SF_intent
+  examples: |
+    - reject leave request [14805L](WfRequestId)
+    - reject leave request [14805L](WfRequestId)
+    - reject leave request [15078L](WfRequestId)
+    - reject leave request [15078L](WfRequestId)
+    - reject leave request [15078L](WfRequestId)
+    - reject leave request [15078L](WfRequestId)
+    - reject leave request [15078L](WfRequestId)
+    - reject leave request [15078L](WfRequestId)
+    - reject leave request [15078L](WfRequestId)
+    - Reject Leave request [15078L](WfRequestId)
+    - Reject Leave request [15078L](WfRequestId)
+    - Reject Leave request [15078L](WfRequestId)
+    - Reject Leave request [15078L](WfRequestId)
+    - Reject Leave request [15078L](WfRequestId)
+    - Reject Leave request [15078L](WfRequestId)
+    - Reject Leave request [15078L](WfRequestId)
+    - reject Leave request [15078L](WfRequestId)
+    - reject Leave request [15078L](WfRequestId)
+    - reject Leave request [15078L](WfRequestId)
+    - reject Leave request [15078L](WfRequestId)
+    - reject Leave request [15078L](WfRequestId)
+    - reject Leave request [15078L](WfRequestId)
+    - reject Leave request [15078L](WfRequestId)
+    - reject Leave request [15078L](WfRequestId)
+    - Reject Leave request [15078L](WfRequestId)
+    - Reject Leave request [15078L](WfRequestId)
+    - Reject Leave request [15078L](WfRequestId)
+    - Reject Leave request [15078L](WfRequestId)
+    - Reject Leave request [15078L](WfRequestId)
+    - Reject Leave request [15078L](WfRequestId)
+    - Reject Leave request [15078L](WfRequestId)
+    - Reject Leave request [15078L](WfRequestId)
+    - Reject Leave request [15078L](WfRequestId)
+    - Reject Leave request [15078L](WfRequestId)
+    - Reject Leave request [15078L](WfRequestId)
+    - Reject Leave request [15078L](WfRequestId)
+    - Reject Leave request [15078L](WfRequestId)
+    - Reject Leave request [15078L](WfRequestId)
+    - Reject Leave request [15078L](WfRequestId)
+    - reject Leave request [25078L](WfRequestId)
+    - reject Leave request [21278L](WfRequestId)
+    - reject Leave request [22228L](WfRequestId)
+    - reject Leave request [23338L](WfRequestId)
+    - Reject Leave request [22988L](WfRequestId)
+
+
+# ******************************************  reject leave from SF ****************************************************
