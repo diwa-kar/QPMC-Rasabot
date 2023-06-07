@@ -7,6 +7,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import PuffLoader from "react-spinners/PuffLoader";
 import Button from "@mui/material/Button";
+import { cloneWith } from "lodash";
 
 const Notificationdisplay = ({
   selectedItem,
@@ -37,16 +38,20 @@ const Notificationdisplay = ({
     //   Creation_Date: "2022-06-30T00:00:00",
     // },
   ]);
-
+  const [leaveDetail,setLeaveDetail]=useState([]);
+  const [ticketdetail,setTicketdetail]=useState([]);
   const getDetails = async () => {
     setDisplayShow(true);
     setDetailData([]);
     setLoader(true);
     let uri = "";
+    let leavedets=[];
+    let ticketdets=[];
+    console.log(selectedItem)
     // selectedItem.type &&
     // selectedItem.type == "Pending Request"
-    if (selectedItem) uri = "qmpc_pending_pr_item_info";
-    if (uri != "") {
+    if (selectedItem.type=="pending pr"){
+      uri = "qmpc_pending_pr_item_info"
       try {
         axios
           .get(
@@ -60,16 +65,74 @@ const Notificationdisplay = ({
             Object.keys(data).map((key, index) => {
               tempData.push(data[key]);
             });
+            console.log(tempData)
             setLoader(false);
-            setDisplayShow(true);
             setDetailData(tempData);
           })
           .catch((error) => console.log(`Error in Axios ${error}`));
       } catch (e) {
         console.log(e);
       }
-    } else {
-      console.log();
+    }else if (selectedItem.type=="pending leave"){
+      setDisplayShow(true);
+      setLeaveDetail([]);
+      setLoader(true);
+      uri="qpmc_leave_reuqest_sf"
+      console.log(selectedItem)
+      try {
+        axios
+          .get(
+            `http://localhost:8000/${uri}`
+          )
+          .then((response) => {
+            const data = response.data;
+            console.log(data)
+            data.map((data) => {
+              for (const [key, value] of Object.entries(data)) {
+                if (key === "Leave Id" && value === selectedItem.value) {
+                  leavedets.push(data)
+                  console.log(leavedets)
+                }
+              }
+              return null
+            })
+            setLeaveDetail(leavedets);
+            setLoader(false);
+          })
+          .catch((error) => console.log(`Error in Axios ${error}`));
+      } catch (e) {
+        console.log(e);
+      }
+    }else if (selectedItem.type=="it ticket"){
+      setDisplayShow(true);
+      setLeaveDetail([]);
+      setLoader(true);
+      uri="qpmc_it_tickets_details"
+      console.log(selectedItem)
+      try {
+        axios
+          .get(
+            `http://localhost:8000/${uri}`
+          )
+          .then((response) => {
+            const data = response.data;
+            console.log(data)
+            data.map((data) => {
+              for (const [key, value] of Object.entries(data)) {
+                if (key === "Ticket id" && value === selectedItem.value) {
+                  ticketdets.push(data)
+                  console.log(ticketdets)
+                }
+              }
+              return null
+            })
+            setTicketdetail(ticketdets);
+            setLoader(false);
+          })
+          .catch((error) => console.log(`Error in Axios ${error}`));
+      } catch (e) {
+        console.log(e);
+      }
     }
   };
   useEffect(() => {
@@ -81,46 +144,96 @@ const Notificationdisplay = ({
   }, [tab]);
 
   function approveRequest() {
-    try {
-      axios
-        .get(
-          `http://localhost:8000/qpmc_pending_pr_approval?prno=${
-            selectedItem.value.split(" ")[1]
-          }`
-        )
-        .then((response) => {
-          const data = response.data;
-          console.log(data);
-          if (data.result.ExStatus == "ERROR") toast.error(data.text);
-          if (data.result.ExStatus == "APPROVED") toast.success(data.text);
-          setCards(cards.filter((card) => card.value != selectedItem.value));
-          setDetailData([]);
-        })
-        .catch((error) => console.log(`Error in Axios ${error}`));
-    } catch (e) {
-      console.log(e);
+    if(selectedItem.type==="pending pr"){
+      try {
+        axios
+          .get(
+            `http://localhost:8000/qpmc_pending_pr_approval?prno=${
+              selectedItem.value.split(" ")[1]
+            }`
+          )
+          .then((response) => {
+            const data = response.data;
+            console.log(data);
+            if (data.result.ExStatus == "ERROR") toast.error(data.text);
+            if (data.result.ExStatus == "APPROVED") toast.success(data.text);
+            setCards(cards.filter((card) => card.value != selectedItem.value));
+            detailData.length = 0;
+            setDisplayShow(false);
+            setDetailData([]);
+          })
+          .catch((error) => console.log(`Error in Axios ${error}`));
+      } catch (e) {
+        console.log(e);
+      }
+    }else if (selectedItem.type==="pending leave"){
+      try {
+        axios
+          .get(
+            `http://localhost:8000/qpmc_accept_leave_reuqest_sf?WfRequestId=${selectedItem.value}L`
+          )
+          .then((response) => {
+            const data = response.data;
+            console.log(data);
+            // if (data.result.ExStatus == "ERROR") toast.error(data.text);
+            // if (data.result.ExStatus == "APPROVED") toast.success(data.text);
+            console.log(cards.filter((card) => card.value != selectedItem.value));
+            setCards(cards.filter((card) => card.value != selectedItem.value));
+            leaveDetail.length = 0;
+            setDisplayShow(false);
+            setDetailData([]);
+          })
+          .catch((error) => console.log(`Error in Axios ${error}`));
+      } catch (e) {
+        console.log(e);
+      }
     }
   }
 
   function rejectRequest() {
-    try {
-      axios
-        .get(
-          `http://localhost:8000/qpmc_pending_pr_reject?prno=${
-            selectedItem.value.split(" ")[1]
-          }`
-        )
-        .then((response) => {
-          const data = response.data;
-          console.log(data);
-          if (data.result.ExStatus == "ERROR") toast.error(data.text);
-          if (data.result.ExStatus == "REJECTED") toast.warning(data.text);
-          setCards(cards.filter((card) => card.value != selectedItem.value));
-          setDetailData([]);
-        })
-        .catch((error) => console.log(`Error in Axios ${error}`));
-    } catch (e) {
-      console.log(e);
+    if(selectedItem.type === "pending pr"){
+      try {
+        axios
+          .get(
+            `http://localhost:8000/qpmc_pending_pr_reject?prno=${
+              selectedItem.value.split(" ")[1]
+            }`
+          )
+          .then((response) => {
+            const data = response.data;
+            console.log(data);
+            if (data.result.ExStatus == "ERROR") toast.error(data.text);
+            if (data.result.ExStatus == "REJECTED") toast.warning(data.text);
+            setCards(cards.filter((card) => card.value != selectedItem.value));
+            detailData.length = 0;
+            setDisplayShow(false);
+            setDetailData([]);
+          })
+          .catch((error) => console.log(`Error in Axios ${error}`));
+      } catch (e) {
+        console.log(e);
+      }
+    } else if (selectedItem.type==="pending leave"){
+      try {
+        axios
+          .get(
+            `http://localhost:8000/qmpc_reject_leave_request_sf?WfRequestId=${selectedItem.value}L`
+          )
+          .then((response) => {
+            const data = response.data;
+            console.log(data);
+            // if (data.result.ExStatus == "ERROR") toast.error(data.text);
+            // if (data.result.ExStatus == "APPROVED") toast.success(data.text);
+            setCards(cards.filter((card) => card.value != selectedItem.value));
+            console.log(cards.filter((card) => card.value != selectedItem.value));
+            leaveDetail.length = 0;
+            setDisplayShow(false);
+            setDetailData([]);
+          })
+          .catch((error) => console.log(`Error in Axios ${error}`));
+      } catch (e) {
+        console.log(e);
+      }
     }
   }
 
@@ -131,7 +244,7 @@ const Notificationdisplay = ({
         width: "69%",
       }}
     >
-      {detailData.length > 0 ? (
+      {detailData.length > 0 || leaveDetail.length > 0 || ticketdetail.length > 0 ? (
         <div className="Notificataion-display-title">
           <span>{tab} Notification</span>
         </div>
@@ -139,7 +252,7 @@ const Notificationdisplay = ({
         <></>
       )}
 
-      {detailData.length > 0 && tab == "Pending" ? (
+      {(detailData.length > 0 || leaveDetail.length > 0) && tab == "Pending" ? (
         <div className="Notificataion-display-buttons">
           <Button
             variant={"contained"}
@@ -187,7 +300,7 @@ const Notificationdisplay = ({
       ) : (
         <></>
       )}
-      {detailData.length > 0 ? (
+      {detailData.length > 0 && selectedItem.type==="pending pr" ? (
         <div className="Notificataion-display-content">
           {detailData.map((data, index) => {
             return (
@@ -205,6 +318,100 @@ const Notificationdisplay = ({
                     <span
                       style={{
                         color: "#820000",
+                        wordWrap: "break-word",
+                      }}
+                    >
+                      {key}
+                    </span>
+                    <span
+                      style={{
+                        margin: "0px 4px",
+                        color: "darkblue",
+                      }}
+                    >
+                      :
+                    </span>
+                    <span
+                      style={{
+                        color: "black",
+                      }}
+                    >
+                      {data[key]}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            );
+          })}
+        </div>
+      ) : (
+        <></>
+      )}
+      {leaveDetail.length > 0 && selectedItem.type==="pending leave" ? (
+        <div className="Notificataion-display-content">
+          {leaveDetail.map((data, index) => {
+            return (
+              <div
+                className="Notificataion-display-detail"
+                key={index}
+                style={{
+                  background: tab=='Pending' ? "#EBF2F4": tab=='Approved'?"#f3fffc":"#fff7f7",
+                  boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px"
+                  // marginBottom: detailData.length == index + 1 ? "20px" : "0px",
+                }}
+              >
+                {Object.keys(data).map((key, keyIndex) => (
+                  <div>
+                    <span
+                      style={{
+                        color: "#002D62",
+                        wordWrap: "break-word",
+                      }}
+                    >
+                      {key}
+                    </span>
+                    <span
+                      style={{
+                        margin: "0px 4px",
+                        color: "darkblue",
+                      }}
+                    >
+                      :
+                    </span>
+                    <span
+                      style={{
+                        color: "black",
+                      }}
+                    >
+                      {data[key]}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            );
+          })}
+        </div>
+      ) : (
+        <></>
+      )}
+      {ticketdetail.length > 0 && selectedItem.type==="it ticket" ? (
+        <div className="Notificataion-display-content">
+          {ticketdetail.map((data, index) => {
+            return (
+              <div
+                className="Notificataion-display-detail"
+                key={index}
+                style={{
+                  background: tab=='Pending' ? "#E9E9DF": tab=='Approved'?"#f3fffc":"#fff7f7",
+                  boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px"
+                  // marginBottom: detailData.length == index + 1 ? "20px" : "0px",
+                }}
+              >
+                {Object.keys(data).map((key, keyIndex) => (
+                  <div>
+                    <span
+                      style={{
+                        color: "#5A5A21",
                         wordWrap: "break-word",
                       }}
                     >

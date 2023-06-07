@@ -56,6 +56,7 @@ function MainPage(props) {
 
       <MiddleNavbar
         updateValues={(value) => setSelectedItem(value)}
+        // leaveItem={(value)=>console.log(value)}
         activeTab={activeTab}
         setCards={setCards}
         cards={cards}

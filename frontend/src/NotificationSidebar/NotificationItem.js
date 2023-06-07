@@ -3,9 +3,20 @@ import { useNavigate } from "react-router-dom";
 
 const NotificationItem = (props) => {
   const navigate = useNavigate();
+  useEffect(()=>{
+    console.log(props.cardItems)
+  },[])
 
-  const handleItemClick = (index) => {
-    props.updateIt(props.cardItems[index]);
+  const handleItemClick = (index, card) => {
+    if (card.type == "pending pr") {
+      props.updateIt(props.cardItems[index]);
+    }else if (card.type == "pending leave") {
+      // console.log(card);
+      props.updateIt(card);
+    }else if (card.type == "it ticket") {
+      // console.log(card);
+      props.updateIt(card);
+    }
   };
   return (
     <div
@@ -24,7 +35,7 @@ const NotificationItem = (props) => {
         props.cardItems.map((card, index) => (
           <div
             key={index}
-            onClick={() => handleItemClick(index)}
+            onClick={() => handleItemClick(index, card)}
             style={{
               width: "90%",
               height: "100px",
@@ -42,7 +53,9 @@ const NotificationItem = (props) => {
               borderBottomLeftRadius: "0px",
               borderLeft: `4px solid ${
                 props.tab == "Pending"
-                  ? "goldenrod"
+                  ? card.type == "pending leave"
+                    ? "#7CB9E8"
+                    : card.type == "pending pr" ?"goldenrod" : "#FFFD9E" 
                   : props.tab == "Approved"
                   ? "#00ab00"
                   : "#da2323"
@@ -59,7 +72,8 @@ const NotificationItem = (props) => {
                 margin: "10px 0px",
               }}
             >
-              <span style={{ fontWeight: "bold" }}>{card.value}</span>
+              {card.type === "pending leave"? <span style={{ fontWeight: "bold" }}>{"PL "}{card.value}</span> 
+              : <span style={{ fontWeight: "bold" }}>{card.value}</span>}
             </div>
             {card.type ? (
               <span
@@ -71,7 +85,11 @@ const NotificationItem = (props) => {
                   color: "white",
                   fontWeight: "bold",
                   fontSize: "6px",
-                  background: "#820000",
+                  background:
+                    card.type === "pending leave" ? "#002D62" : card.type === "pending pr" ? "#820000" 
+                    : card.type === "approved leave" || card.type === "approved pr" ? "#00ab00" 
+                    : card.type === "rejected leave" || card.type === "rejected pr" ? "#da2323"
+                    : card.type === "it ticket" ? "#7D7B00": "#7D7B00",
                   borderRadius: "2px",
                   textTransform: "uppercase",
                 }}
