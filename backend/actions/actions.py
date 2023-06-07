@@ -1920,7 +1920,7 @@ class QpmcTicketRaiseMonitor(Action):
         print(ticket_number)
 
 
-                # Dictionary to be inserted
+        # Dictionary to be inserted
         data = {
             "Ticket ID": ticket_number,
             "Ticket type": "hardware",
@@ -1949,6 +1949,7 @@ class QpmcTicketRaise(Action):
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+            
         
         db = client["QPMC_RasaChatbot"]
         collection = db["ITTickets"]
@@ -1986,7 +1987,6 @@ class QpmcTicketRaise(Action):
             ticket_type = "hardware"
 
 
-
         random_number = np.random.randint(10000, 100000)
         ticket_number = "TCKT"+str(random_number)
         print(ticket_number)
@@ -2007,7 +2007,9 @@ class QpmcTicketRaise(Action):
             print("Failed to insert ticket to mongo")
 
 
-        dispatcher.utter_message(text=f"Your ticket has been raised with Ticket ID: {ticket_number} \nTicket type:{ticket_type} \nHardware type:{hardware_type}")
+        dispatcher.utter_message(text=f"Your ticket has been raised with Ticket ID: {ticket_number} \nTicket type:{ticket_type} \nHardware type:{hardware_type} \n")
+
+        
 
         return []
 
