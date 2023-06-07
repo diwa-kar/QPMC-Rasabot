@@ -26,7 +26,7 @@ db = client["FinancialDetails"]
 
 # from actions.api import prlist, pritems, pritemdetails, polist, poitems, poitemdetails
 
-from actions.api import pending_prlist_qpmc,pending_pr_item_list_qpmc,pending_pr_item_description,qpmc_pending_pr_approval,qpmc_pending_pr_reject,Leave_Request_SF,Accept_leave_req_SF,Reject_leave_req_SF
+from actions.api import pending_prlist_qpmc,pending_pr_item_list_qpmc,pending_pr_item_description,qpmc_pending_pr_approval,qpmc_pending_pr_reject,Leave_Request_SF,Accept_leave_req_SF,Reject_leave_req_SF,Leave_Request_SF_Details
 
 # ALLOWED_TICKET_TYPES = ["software", "hardware"]
 # ALLOWED_HARDWARE_TYPES = ["monitor", "keyboard", "mouse", "printer", "scanner"]
@@ -2031,13 +2031,42 @@ class LeaveRequestSF(Action):
         
         leave_req_list = Leave_Request_SF()
 
-        dispatcher.utter_message(text=f"{leave_req_list}")
+        # dispatcher.utter_message(text=f"{leave_req_list}")
+
+        send = {
+            "requests": leave_req_list,
+            "msg": "The Pending Leave request ID are shown below. Choose Any one to see the leave details",
+        }
+        my_json = json.dumps(send)
+        dispatcher.utter_message(text=my_json)
 
         return []
 
 
 
 # ****************************************** fetching pending leave request form SF ******************************************
+
+
+# ****************************************** fetching pending leave request Details ******************************************
+
+class LeaveRequestSFDetails(Action):
+
+    def name(self) -> Text:
+        return "Leave_Request_SF_Details_action"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        
+        leave_req_details = Leave_Request_SF_Details()
+
+        dispatcher.utter_message(text=f"{leave_req_details}")
+
+        return []
+
+
+
+# ****************************************** fetching pending leave request Details ******************************************
 
 
 # ****************************************** accepting pending leave from SF *****************************************************

@@ -443,3 +443,14 @@ rules:
 
 
 # ****************************************** reject leave from SF ****************************************************
+
+# ****************************************** fetching pending leave request Details ******************************************
+
+- rule: fetching leave details from SF
+  steps:
+  - intent: Leave_Request_SF_Details_intent
+  - action: Leave_Request_SF_Details_action
+
+
+
+# ****************************************** fetching pending leave request Details ******************************************

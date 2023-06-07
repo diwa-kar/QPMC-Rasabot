@@ -104,6 +104,8 @@ intents:
 
   - Reject_Leave_Request_SF_intent
 
+  - Leave_Request_SF_Details_intent
+
 
 
 actions:
@@ -196,6 +198,8 @@ actions:
   - Accept_Leave_Request_SF_action
 
   - Reject_Leave_Request_SF_action
+
+  - Leave_Request_SF_Details_action
 
 
 # ************************************************ Ticket form ***************************************************
