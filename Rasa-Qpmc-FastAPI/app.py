@@ -1,5 +1,5 @@
 # Importing necessary libraries
-
+import xmltodict
 import uvicorn
 
 from fastapi import FastAPI,File,UploadFile,Form
@@ -14,15 +14,15 @@ from fastapi.encoders import jsonable_encoder
 
 from pymongo import MongoClient
 import urllib
-
+import numpy as np
 
 import requests
-import xmltodict
 import json
 from flatten_json import flatten
 
 from suds.client import Client
 from suds.transport.https import HttpAuthenticated
+from typing import Union
 
 import re
 
@@ -488,10 +488,10 @@ async def qpmc_leave_reuqest_sf():
     while True:
         try:
             d={
-            'subject_id':flatjs[f'feed_entry_content_m:properties_d:todos_d:element_d:entries_d:element_{i}_d:subjectId'],
-            'subject_name':pick_name_from_sentence(flatjs[f'feed_entry_content_m:properties_d:todos_d:element_d:entries_d:element_{i}_d:subjectFullName']),
-            'leave_duration': extract_date_from_sentence(flatjs[f'feed_entry_content_m:properties_d:todos_d:element_d:entries_d:element_{i}_d:subjectFullName']),
-            'leave_type': words_before_parenthesis(flatjs[f'feed_entry_content_m:properties_d:todos_d:element_d:entries_d:element_{i}_d:subjectFullName'])
+            'Leave Id':flatjs[f'feed_entry_content_m:properties_d:todos_d:element_d:entries_d:element_{i}_d:subjectId'],
+            'Employee Name':pick_name_from_sentence(flatjs[f'feed_entry_content_m:properties_d:todos_d:element_d:entries_d:element_{i}_d:subjectFullName']),
+            'Leave Duration': extract_date_from_sentence(flatjs[f'feed_entry_content_m:properties_d:todos_d:element_d:entries_d:element_{i}_d:subjectFullName']),
+            'Leave Type': words_before_parenthesis(flatjs[f'feed_entry_content_m:properties_d:todos_d:element_d:entries_d:element_{i}_d:subjectFullName'])
             }
             pendingleave.append(d)
             i+=1
@@ -517,6 +517,11 @@ async def qpmc_accept_leave_reuqest_sf(WfRequestId:str):
     response = session.post(url)
     # Print the response status code and content
     print(response.status_code)
+    if response.status_code == 200:
+        db = client["QPMC_RasaChatbot"]
+        collection = db["Approved_Leave"]
+        document = {"Leave Id":f"{WfRequestId}", "Status":"Approved"}
+        res = collection.insert_one(document)
 
     if response.status_code == 200:
         res = f"Leave Request ({WfRequestId}) has been approved"
@@ -539,6 +544,11 @@ async def qpmc_reject_leave_request_sf(WfRequestId:str):
     response = session.post(url)
     # Print the response status code and content
     print(response)
+    if response.status_code == 200:
+        db = client["QPMC_RasaChatbot"]
+        collection = db["Rejected_Leave"]
+        document = {"Leave Id":f"{WfRequestId}", "Status":"Rejected"}
+        res = collection.insert_one(document)
 
     if response.status_code == 200:
         res = f"Leave Request ({WfRequestId}) has been rejected"
@@ -547,6 +557,99 @@ async def qpmc_reject_leave_request_sf(WfRequestId:str):
 
 
     return res
+
+
+@app.get('/qpmc_approved_leave_list_mongo')
+async def qpmc_approved_leave_list_mongo():
+
+    db = client["QPMC_RasaChatbot"]
+    collection = db["Approved_Leave"]
+    a=collection.find()
+
+    approved_leave_list = []
+
+    for i in a:
+        approved_leave_list.append(i['Leave Id'])
+    return approved_leave_list
+
+
+@app.get('/qpmc_rejected_leave_list_mongo')
+async def qpmc_rejected_leave_list_mongo():
+
+    db = client["QPMC_RasaChatbot"]
+    collection = db["Rejected_Leave"]
+    a=collection.find()
+
+    rejected_leave_list=[]
+
+    for i in a:
+        rejected_leave_list.append(i['Leave Id'])
+    return rejected_leave_list
+
+
+@app.get('/qpmc_it_tickets')
+async def qpmc_it_tickets():
+
+    db = client["QPMC_RasaChatbot"]
+    collection = db["ITTickets"]
+    a=collection.find()
+
+    it_tickets = []
+
+    for i in a:
+        print(i)
+        it_tickets.append(i['Ticket ID'])
+    return it_tickets
+
+@app.get('/qpmc_it_tickets_insert')
+async def qpmc_it_tickets_insert(tickettype:str,Hardwaretype:str,monitorsize : Union[str, None] = None):
+    db = client["QPMC_RasaChatbot"]
+    collection = db["ITTickets"]
+    random_number = np.random.randint(10000, 100000)
+    ticket_number = "TCKT"+str(random_number)
+    print(ticket_number)
+    if(Hardwaretype == "Monitor"):
+        data = {
+            "Ticket ID": ticket_number,
+            "Ticket type": tickettype,
+            "Hardware type": Hardwaretype,
+            "Monitor Size": monitorsize
+        }
+    else:
+        data = {
+            "Ticket ID": ticket_number,
+            "Ticket type": tickettype,
+            "Hardware type": Hardwaretype
+        }
+    result = collection.insert_one(data)
+    if result.inserted_id:
+        print("ticket raised succesfully Inserted ID:", result.inserted_id)
+        res= f"Leave Request ({ticket_number}) has been inserted"
+    else:
+        res= f"Leave Request ({ticket_number}) has not been inserted"
+    return res
+
+@app.get('/qpmc_it_tickets_details')
+async def qpmc_it_tickets_details():
+
+    db = client["QPMC_RasaChatbot"]
+    collection = db["ITTickets"]
+    a=collection.find()
+
+    it_ticket_detail = []
+
+    for i in a:
+        ticket={}
+        ticket["Ticket id"]=i['Ticket ID']
+        ticket["Ticket type"]=i['Ticket type']
+        ticket["Hardware type"]=i['Hardware type']
+        if(i['Hardware type']=="monitor" or i['Hardware type']=="Monitor" ):
+            ticket["Monitor Size"]=i['Monitor Size']
+        it_ticket_detail.append(ticket)
+    return it_ticket_detail
+
+
+
 
 
 
