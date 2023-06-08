@@ -2060,7 +2060,9 @@ class LeaveRequestSFDetails(Action):
         
         leave_req_details = Leave_Request_SF_Details()
 
-        print("im inside leave detailsl action function")
+        WfRequestId = tracker.get_slot("WfRequestId")
+
+        print(f"im inside leave detailsl action function {WfRequestId}")
 
         print(leave_req_details)
 
