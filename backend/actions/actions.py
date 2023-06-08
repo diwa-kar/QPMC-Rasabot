@@ -2060,7 +2060,13 @@ class LeaveRequestSFDetails(Action):
         
         leave_req_details = Leave_Request_SF_Details()
 
+        print("im inside leave detailsl action function")
+
+        print(leave_req_details)
+
         dispatcher.utter_message(text=f"{leave_req_details}")
+
+
 
         return []
 
