@@ -1691,7 +1691,7 @@ class PrItemDescriptonQPMC(Action):
         send = {
             "msg": "Here is the Details of Purchase Requisition... ",
             "details": {
-                "data":details,"flag":Pending_PR_Flag
+                "data":details,"flag":Pending_PR_Flag,"type":"PR"
                 }
         }
         
@@ -1797,10 +1797,11 @@ class QPMCPrNumberwithItem(Action):
         pritemdesc = pending_pr_item_description(pr_number, pr_itemnumber)
         # print(pritemdesc)
 
+
         send = {
             "msg": "Here is the Details of Purchase Requisition... ",
             "details": {
-                "data":pritemdesc,"flag":Pending_PR_Flag
+                "data":pritemdesc,"flag":Pending_PR_Flag,"type":"PR"
                 }
         }
 
@@ -2058,15 +2059,36 @@ class LeaveRequestSFDetails(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         
-        leave_req_details = Leave_Request_SF_Details()
+        
 
         WfRequestId = tracker.get_slot("WfRequestId")
 
         print(f"im inside leave detailsl action function {WfRequestId}")
 
-        print(leave_req_details)
+        leave_req_details = Leave_Request_SF_Details(WfRequestId)
 
-        dispatcher.utter_message(text=f"{leave_req_details}")
+        flag_variable = True
+
+        # print(leave_req_details)
+
+        # dispatcher.utter_message(text=f"{leave_req_details}")
+
+        type_flag = "PL"
+
+        send = {
+            "msg": "Here is the Details for the Leave request... ",
+            "details": {
+                "data":leave_req_details,"flag":flag_variable,
+                "type": type_flag
+                }
+            
+        }
+
+           
+        my_json = json.dumps(send)
+
+        
+        dispatcher.utter_message(text=my_json)
 
 
 

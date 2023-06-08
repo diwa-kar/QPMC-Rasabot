@@ -209,7 +209,7 @@ def Leave_Request_SF():
             
             
             }
-            leave_id_list.append("PL "+flatjs[f'feed_entry_content_m:properties_d:todos_d:element_d:entries_d:element_{i}_d:subjectId'])
+            leave_id_list.append("PL "+flatjs[f'feed_entry_content_m:properties_d:todos_d:element_d:entries_d:element_{i}_d:subjectId']+"L")
             pendingleave.append(d)
             i+=1
         except: 
@@ -278,7 +278,10 @@ def Reject_leave_req_SF(WfRequestId):
 # ****************************************** reject leave from SF ****************************************************
 
 # ****************************************** fetching pending leave request Details ******************************************
-def Leave_Request_SF_Details():
+def Leave_Request_SF_Details(WfRequestId):
+
+    username = 'kaaradmin@qatarprimaT1'
+    password = 'Qpmc@456'
 
     # extranct date from the sentence
     def extract_date_from_sentence(sentence):
@@ -334,17 +337,30 @@ def Leave_Request_SF_Details():
             'subject_name':pick_name_from_sentence(flatjs[f'feed_entry_content_m:properties_d:todos_d:element_d:entries_d:element_{i}_d:subjectFullName']),
             'leave_duration': extract_date_from_sentence(flatjs[f'feed_entry_content_m:properties_d:todos_d:element_d:entries_d:element_{i}_d:subjectFullName']),
             'leave_type': words_before_parenthesis(flatjs[f'feed_entry_content_m:properties_d:todos_d:element_d:entries_d:element_{i}_d:subjectFullName'])
-            
-            
             }
             pendingleave.append(d)
             i+=1
         except: 
             break
   
-    print(pendingleave)
+    # print(pendingleave)
 
-    return pendingleave
+    
+
+    for json_list in pendingleave:
+        if json_list['subject_id'] == WfRequestId:
+            leave_details={
+            "Leave Request ID":json_list['subject_id'],
+            "Employee Name":json_list['subject_name'],
+            "Leave Duration":json_list['leave_duration'],
+            "Leave Type":json_list['leave_type']
+            }
+            # leave_details.append(d)
+            break
+        
+    print(leave_details)
+
+    return leave_details
 
 
 # ****************************************** fetching pending leave request Details ******************************************

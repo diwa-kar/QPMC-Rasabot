@@ -53,6 +53,7 @@ const ChatBot = () => {
       details: {
         showButtons: 1,
         data: { "Pending Request Number": "DFUIVFIEVWIF" },
+        type: "PL"
       },
       donutChart: {
         "Marketing Expense": 67854,
@@ -190,11 +191,14 @@ const ChatBot = () => {
               response_temp["links"] = recipient_msg["links"];
 
             if (recipient_msg["details"]) {
-              if (recipient_msg["details"]["flag"])
+              if (recipient_msg["details"]["flag"]) {
+                console.log(recipient_msg)
                 response_temp["details"] = {
                   showButtons: recipient_msg["details"]["flag"] ? true : false,
                   data: recipient_msg["details"]["data"],
+                  type: recipient_msg["details"]['type']
                 };
+              }
               else
                 response_temp["details"] = {
                   data: recipient_msg["details"]["data"],
@@ -224,6 +228,7 @@ const ChatBot = () => {
               details: { showButtons: false, data: {} },
             };
           }
+          console.log(response_temp);
           setBotTyping(false);
           setUserTyping(false);
           console.log(chat);
@@ -659,7 +664,7 @@ const ChatBot = () => {
     <div
       className="chatbot-container"
       style={{
-        width: chatBotOpen ? "30vw" : "5vw", 
+        width: chatBotOpen ? "30vw" : "5vw",
         height: chatBotOpen ? "85vh" : "",
         right: chatBotOpen ? "4px" : "22px",
         bottom: chatBotOpen ? "10px" : "35px",
@@ -670,7 +675,7 @@ const ChatBot = () => {
           <div
             className="chatscreen-header"
             style={{
-              background:"#303030",
+              background: "#303030",
             }}
           >
             <div className="chatscreen-header-logo">
@@ -830,13 +835,13 @@ const ChatBot = () => {
                             onClick={(e) => {
                               chatContent.chat_id == viewMoreState.id
                                 ? setViewMoreState({
-                                    ...viewMoreState,
-                                    count: viewMoreState.count + 10,
-                                  })
+                                  ...viewMoreState,
+                                  count: viewMoreState.count + 10,
+                                })
                                 : setViewMoreState({
-                                    id: chatContent.chat_id,
-                                    count: 20,
-                                  });
+                                  id: chatContent.chat_id,
+                                  count: 20,
+                                });
                             }}
                           >
                             View More
@@ -849,8 +854,8 @@ const ChatBot = () => {
                       <></>
                     )}
                     {chatContent.details &&
-                    chatContent.details.data &&
-                    Object.keys(chatContent.details.data).length > 0 ? (
+                      chatContent.details.data &&
+                      Object.keys(chatContent.details.data).length > 0 ? (
                       <div
                         className="chatscreen-content-details"
                         style={{
@@ -914,9 +919,15 @@ const ChatBot = () => {
                               }}
                               color="success"
                               onClick={(e) => {
-                                handleButtonRequest(
-                                  `Approve PR ${chatContent.details.data["Purchase Requisition Number"]}`
-                                );
+                                console.log(chatContent.details.type);
+                                if (chatContent.details.type == "PR")
+                                  handleButtonRequest(
+                                    `Approve PR ${chatContent.details.data["Purchase Requisition Number"]}`
+                                  );
+                                else if (chatContent.details.type == "PL")
+                                  handleButtonRequest(
+                                    `Approve Leave Request ${chatContent.details.data["Leave Request ID"]}`
+                                  );
                               }}
                             >
                               Approve
