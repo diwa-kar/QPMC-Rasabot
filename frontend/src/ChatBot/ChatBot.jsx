@@ -926,7 +926,7 @@ const ChatBot = () => {
                                   );
                                 else if (chatContent.details.type == "PL")
                                   handleButtonRequest(
-                                    `Approve Leave Request ${chatContent.details.data["Leave Request ID"]}`
+                                    `Approve PL ${chatContent.details.data["Leave Request ID"]}`
                                   );
                               }}
                             >
