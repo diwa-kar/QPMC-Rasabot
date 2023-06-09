@@ -4,14 +4,26 @@ import { FormCheck } from "react-bootstrap";
 import axios from 'axios';
 import Swal from "sweetalert2";
 import Grid from '@mui/material/Grid';
-import { Typography, Radio, RadioGroup,FormControl, FormControlLabel, InputLabel, Select, MenuItem, Button, TextField } from "@mui/material";
+import { Typography, Radio, RadioGroup,FormControl, FormControlLabel, InputLabel, Select, MenuItem, Button, TextField, Snackbar, Alert } from "@mui/material";
 // import { Button } from "reactstrap";
 
 const ITform = (props) => {
     const [buttonDisabled, setButtonDisabled] = useState(false);
     const [tickettype,setTickettype]= useState('');
     const [hwtype,setHwtype]=useState('');
-    const [inch,setInch]= useState('')
+    const [inch,setInch]= useState('');
+    const [open,setOpen]=useState(false);
+    const [open1,setOpen1]=useState(false);
+    
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+          return;
+        }
+    
+        setOpen(false);
+        setOpen1(false);
+      };
+    
 
     // const [formData, setFormData] = useState({
     //     newComputer: false,
@@ -101,40 +113,46 @@ const ITform = (props) => {
 
     const formclick = () => {
         console.log(tickettype,hwtype,inch);
-        if(hwtype!=="Monitor"){
-            try {
-                axios
-                    .get(
-                    `http://localhost:8000/qpmc_it_tickets_insert?tickettype=${tickettype}&Hardwaretype=${hwtype}`
-                    )
-                    .then((response) => {
-                    const data = response.data;
-                    console.log(data);
-                    setTickettype(null);
-                    setInch(null);
-                    setHwtype(null);
-                    })
-                    .catch((error) => console.log(`Error in Axios ${error}`));
-                } catch (e) {
-                console.log(e);
-                }
-        } else if(hwtype==="Monitor"){
-            try {
-                axios
-                    .get(
-                    `http://localhost:8000/qpmc_it_tickets_insert?tickettype=${tickettype}&Hardwaretype=${hwtype}&monitorsize=${inch}`
-                    )
-                    .then((response) => {
-                    const data = response.data;
-                    console.log(data);
-                    setTickettype(null);
-                    setInch(null);
-                    setHwtype(null);
-                    })
-                    .catch((error) => console.log(`Error in Axios ${error}`));
-                } catch (e) {
-                console.log(e);
-                }
+        if(tickettype !=="" && hwtype !==""){
+            if(hwtype!=="Monitor"){
+                try {
+                    axios
+                        .get(
+                        `http://localhost:8000/qpmc_it_tickets_insert?tickettype=${tickettype}&Hardwaretype=${hwtype}`
+                        )
+                        .then((response) => {
+                        const data = response.data;
+                        console.log(data);
+                        setTickettype(null);
+                        setInch(null);
+                        setHwtype(null);
+                        })
+                        .catch((error) => console.log(`Error in Axios ${error}`));
+                    } catch (e) {
+                    console.log(e);
+                    }
+            } else if(hwtype==="Monitor"){
+                try {
+                    axios
+                        .get(
+                        `http://localhost:8000/qpmc_it_tickets_insert?tickettype=${tickettype}&Hardwaretype=${hwtype}&monitorsize=${inch}`
+                        )
+                        .then((response) => {
+                        const data = response.data;
+                        console.log(data);
+                        setTickettype(null);
+                        setInch(null);
+                        setHwtype(null);
+                        })
+                        .catch((error) => console.log(`Error in Axios ${error}`));
+                    } catch (e) {
+                    console.log(e);
+                    }
+            }
+            setOpen(true);
+        } else {
+            console.log("first")
+            setOpen1(true);
         }
     }
 
@@ -213,6 +231,16 @@ const ITform = (props) => {
                             </div>
                 </div>
             </div>
+            <Snackbar open={open} autoHideDuration={2000} onClose={handleClose}>
+                <Alert onClose={handleClose} variant="filled" severity="success" elevation={6} sx={{ width: '100%' }}>
+                    Ticket is Submitted
+                </Alert>
+            </Snackbar>
+            <Snackbar open={open1} autoHideDuration={2000} onClose={handleClose}>
+                <Alert onClose={handleClose} variant="filled" severity="error" elevation={6} sx={{ width: '100%' }}>
+                    Fill the Required field
+                </Alert>
+            </Snackbar>
         </>
     )
 }

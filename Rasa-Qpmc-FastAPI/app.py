@@ -504,8 +504,9 @@ async def qpmc_leave_reuqest_sf():
 
 
 @app.get('/qpmc_accept_leave_reuqest_sf')
-async def qpmc_accept_leave_reuqest_sf(WfRequestId:str):
+async def qpmc_accept_leave_reuqest_sf(WfRequestId:str,name:str,type:str,duration:str):
 
+    # print(WfRequestId,name,type,duration)
      # Set the SAP URL and credentials
     url = f'https://api2preview.sapsf.eu/odata/v2/approveWfRequest?wfRequestId={WfRequestId}&comment=Approved'
     username = 'kaaradmin@qatarprimaT1'
@@ -520,7 +521,7 @@ async def qpmc_accept_leave_reuqest_sf(WfRequestId:str):
     if response.status_code == 200:
         db = client["QPMC_RasaChatbot"]
         collection = db["Approved_Leave"]
-        document = {"Leave Id":f"{WfRequestId}", "Status":"Approved"}
+        document = {"Leave Id":f"{WfRequestId}","Employee Name":f"{name}","Leave Duration":f"{duration}","Leave Type":f"{type}", "Status":"Approved"}
         res = collection.insert_one(document)
 
     if response.status_code == 200:
@@ -531,7 +532,7 @@ async def qpmc_accept_leave_reuqest_sf(WfRequestId:str):
     return res
 
 @app.get('/qmpc_reject_leave_request_sf')
-async def qpmc_reject_leave_request_sf(WfRequestId:str):
+async def qpmc_reject_leave_request_sf(WfRequestId:str,name:str,type:str,duration:str):
 
     # Set the SAP URL and credentials
     url = f'https://api2preview.sapsf.eu/odata/v2/rejectWfRequest?wfRequestId={WfRequestId}&comment=Rejected'
@@ -547,7 +548,7 @@ async def qpmc_reject_leave_request_sf(WfRequestId:str):
     if response.status_code == 200:
         db = client["QPMC_RasaChatbot"]
         collection = db["Rejected_Leave"]
-        document = {"Leave Id":f"{WfRequestId}", "Status":"Rejected"}
+        document = {"Leave Id":f"{WfRequestId}" ,"Employee Name":f"{name}","Leave Duration":f"{duration}","Leave Type":f"{type}", "Status":"Rejected"}
         res = collection.insert_one(document)
 
     if response.status_code == 200:
@@ -567,10 +568,17 @@ async def qpmc_approved_leave_list_mongo():
     a=collection.find()
 
     approved_leave_list = []
+    approved_leave_dets= []
 
     for i in a:
         approved_leave_list.append(i['Leave Id'])
-    return approved_leave_list
+        detail={}
+        detail["Leave Id"]=i['Leave Id']
+        detail["Employee Name"]=i['Employee Name']
+        detail["Leave Duration"]=i['Leave Duration']
+        detail["Leave Type"]=i['Leave Type']
+        approved_leave_dets.append(detail)
+    return {"approved_leave_list":approved_leave_list,"approved_leave_dets":approved_leave_dets}
 
 
 @app.get('/qpmc_rejected_leave_list_mongo')
@@ -581,10 +589,17 @@ async def qpmc_rejected_leave_list_mongo():
     a=collection.find()
 
     rejected_leave_list=[]
+    rejected_leave_dets= []
 
     for i in a:
         rejected_leave_list.append(i['Leave Id'])
-    return rejected_leave_list
+        detail={}
+        detail["Leave Id"]=i['Leave Id']
+        detail["Employee Name"]=i['Employee Name']
+        detail["Leave Duration"]=i['Leave Duration']
+        detail["Leave Type"]=i['Leave Type']
+        rejected_leave_dets.append(detail)
+    return {"rejected_leave_list":rejected_leave_list,"rejected_leave_dets":rejected_leave_dets}
 
 
 @app.get('/qpmc_it_tickets')

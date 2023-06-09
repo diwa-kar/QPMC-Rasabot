@@ -19,7 +19,7 @@ const Sidebar = ({ setTab, tab, setIsOpen, isOpen }) => {
         <img src={QPMCLogo} alt="Logo" />
       </div>
       <div className="sidebar-content">
-        <div
+        {/* <div
           className="sidebar-items"
           style={{
             color: tab == "Home" ? "#820000" : "#000",
@@ -28,7 +28,7 @@ const Sidebar = ({ setTab, tab, setIsOpen, isOpen }) => {
         >
           <i class="fa-solid fa-house"></i>
           <span>HOME</span>
-        </div>
+        </div> */}
         <div
           className="sidebar-items"
           style={{

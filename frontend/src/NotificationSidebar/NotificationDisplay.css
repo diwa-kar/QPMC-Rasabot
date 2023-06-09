@@ -32,7 +32,7 @@
   align-items: flex-start;
   flex-wrap: wrap;
   padding: 20px;
-  padding-bottom: 100px;
+  padding-bottom: 50px;
 }
 
 .Notificataion-display-detail {
@@ -44,7 +44,6 @@
   padding: 5px 10px;
   border-radius: 6px;
 }
-
 .Notificataion-display-detail div {
   margin: 5px 0px;
   display: flex;
@@ -78,6 +77,46 @@
   font-weight: 500;
 }
 
+.Notificataion-display-detail-leave {
+  flex-wrap: wrap;
+  margin: 5px 0px;
+  padding: 5px 10px;
+  border-radius: 6px;
+}
+
+.Notificataion-display-detail-leave div {
+  margin: 5px 0px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  /* width: 50%; */
+}
+
+.Notificataion-display-detail-leave span {
+  font-size: 13px;
+  letter-spacing: 0.5px;
+}
+
+.Notificataion-display-detail-leave span:first-child {
+  width: 180px;
+  overflow-wrap: break-word;
+  font-weight: bold;
+  text-align: left;
+}
+
+.Notificataion-display-detail-leave span:nth-child(2) {
+  width: 10%;
+  text-align: left;
+  font-size: 20px;
+}
+
+.Notificataion-display-detail-leave span:last-child {
+  width: 200px;
+  overflow-wrap: break-word;
+  text-align: left;
+  font-weight: 500;
+}
+
 .Notificataion-display-buttons {
   width: 100%;
   margin: 0 auto;
@@ -86,4 +125,13 @@
   align-items: center;
   justify-content: flex-end;
   padding-right: 30px;
+}
+
+.Notificataion-display-buttons-leave {
+  width: 100%;
+  margin: 0 auto;
+  height: 7%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

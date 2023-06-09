@@ -102,9 +102,9 @@ const MiddleNavbar = (props) => {
         const data1 = await response1.json();
         console.log(data1);
         let type1 = "approved leave";
-        if (data1) {
+        if (data1.approved_leave_list) {
           approved_leave =
-          data1.map((item, index) => ({
+          data1.approved_leave_list.map((item, index) => ({
             type: type1,
             value: item
           }))
@@ -139,9 +139,9 @@ const MiddleNavbar = (props) => {
         const data1 = await response1.json();
         console.log(data1);
         let type1 = "rejected leave";
-        if (data1) {
+        if (data1.rejected_leave_list) {
           rejected_leave =
-          data1.map((item, index) => ({
+          data1.rejected_leave_list.map((item, index) => ({
             type: type1,
             value: item
           }))
