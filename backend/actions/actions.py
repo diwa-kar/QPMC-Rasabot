@@ -2074,7 +2074,6 @@ class LeaveRequestSFDetails(Action):
         # dispatcher.utter_message(text=f"{leave_req_details}")
 
         type_flag = "PL"
-
         send = {
             "msg": "Here is the Details for the Leave request... ",
             "details": {
@@ -2083,11 +2082,7 @@ class LeaveRequestSFDetails(Action):
                 }
             
         }
-
-           
         my_json = json.dumps(send)
-
-        
         dispatcher.utter_message(text=my_json)
 
 
@@ -2112,7 +2107,6 @@ class LeaveRequestSFAccept(Action):
         WfRequestId = tracker.get_slot("WfRequestId")
 
         res = Accept_leave_req_SF(WfRequestId)
-
 
         dispatcher.utter_message(text=f"{res}")
 

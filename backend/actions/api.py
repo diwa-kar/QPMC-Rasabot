@@ -8,10 +8,17 @@ from suds.transport.https import HttpAuthenticated
 
 import re
 
+from pymongo import MongoClient
+import urllib
+
+
+mongodb_uri = (
+    "mongodb+srv://Bharathkumarkaar:1874924vbk@rasachatbot.ibvkwut.mongodb.net/test"
+)
+client = MongoClient(mongodb_uri)
 
 username = 'KAAR'
 password = 'Qpmck@@r098'
-
 
 
 # ************************************************* pr list from QPMC system *****************************************************************
@@ -222,63 +229,91 @@ def Leave_Request_SF():
 
 # ****************************************** fetching pending leave request form SF ******************************************
 
-
-# ****************************************** accepting pending leave from SF *****************************************************
-
-def Accept_leave_req_SF(WfRequestId):
-    
-
-    # Set the SAP URL and credentials
-    url = f'https://api2preview.sapsf.eu/odata/v2/approveWfRequest?wfRequestId={WfRequestId}&comment=Approved'
-    username = 'kaaradmin@qatarprimaT1'
-    password = 'Qpmc@456'
-    # Create a session and set the authorization header
-    session = requests.Session()
-    session.auth = (username, password)
-    # Send a GET request to the SAP system
-    response = session.post(url)
-    # Print the response status code and content
-    print(response.status_code)
-
-    if response.status_code == 200:
-        res = f"Leave Request ({WfRequestId}) has been approved"
-    else:
-        res = f"Leave Request ({WfRequestId}) has been already approved and moved to higher level approver"
-
-    return res
-
-
-# ****************************************** accepting pending leave from SF *****************************************************
-
-# ****************************************** reject leave from SF ****************************************************
-
-def Reject_leave_req_SF(WfRequestId):
-    
-    # Set the SAP URL and credentials
-    url = f'https://api2preview.sapsf.eu/odata/v2/rejectWfRequest?wfRequestId={WfRequestId}&comment=Rejected'
-    username = 'kaaradmin@qatarprimaT1'
-    password = 'Qpmc@456'
-    # Create a session and set the authorization header
-    session = requests.Session()
-    session.auth = (username, password)
-    # Send a GET request to the SAP system
-    response = session.post(url)
-    # Print the response status code and content
-    print(response)
-
-    if response.status_code == 200:
-        res = f"Leave Request ({WfRequestId}) has been rejected"
-    else:
-        res = f"Leave Request ({WfRequestId}) has been already rejected"
-
-
-    return res
-
-
-# ****************************************** reject leave from SF ****************************************************
-
 # ****************************************** fetching pending leave request Details ******************************************
 def Leave_Request_SF_Details(WfRequestId):
+
+    # username = 'kaaradmin@qatarprimaT1'
+    # password = 'Qpmc@456'
+
+    # # extranct date from the sentence
+    # def extract_date_from_sentence(sentence):
+    #     pattern = r"\((.*?)\)"  # Regex pattern to match text within parentheses
+    #     match = re.search(pattern, sentence)  # Search for the pattern in the sentence
+
+    #     if match:
+    #         date_within_parentheses = match.group(1)  # Extract the text within parentheses
+    #         return date_within_parentheses
+    #     else:
+    #         return None
+
+    # # extracting words before paranthesis to find Leave Type
+    # def words_before_parenthesis(sentence):
+    #     # Find the index of the opening parenthesis
+    #     parenthesis_index = sentence.find("(")
+
+    #     if parenthesis_index != -1:
+    #         words = sentence[:parenthesis_index][:-1]
+    #         return words
+    #     else:
+    #         return None
+
+    # # picking up name from the sentece 
+    # def pick_name_from_sentence(sentence):
+    #     colon_index = sentence.find(":")
+        
+    #     if colon_index != -1:
+    #         words = sentence[colon_index+2:]
+    #         return words
+    #     else:
+    #         return None
+
+    # url = 'https://api2preview.sapsf.eu/odata/v2/Todo?$filter=categoryId%20eq%20%2718%27'
+    # session = requests.Session()
+    # session.auth = (username, password)
+    # # Send a GET request to the SAP system
+    # response = session.get(url)
+    # # Print the response status code and content
+    # obj = response.content
+    # objstr = str(obj, 'UTF-8')
+    # obj2 = xmltodict.parse(objstr)
+    # js = json.dumps(obj2)
+    # js_obj = json.loads(js)
+    # flatjs = flatten(js_obj)
+
+    # pendingleave=[]
+    # i=0 
+    # while True:
+    #     try:
+    #         d={
+    #         'subject_id':flatjs[f'feed_entry_content_m:properties_d:todos_d:element_d:entries_d:element_{i}_d:subjectId']+"L",
+    #         'subject_name':pick_name_from_sentence(flatjs[f'feed_entry_content_m:properties_d:todos_d:element_d:entries_d:element_{i}_d:subjectFullName']),
+    #         'leave_duration': extract_date_from_sentence(flatjs[f'feed_entry_content_m:properties_d:todos_d:element_d:entries_d:element_{i}_d:subjectFullName']),
+    #         'leave_type': words_before_parenthesis(flatjs[f'feed_entry_content_m:properties_d:todos_d:element_d:entries_d:element_{i}_d:subjectFullName'])
+    #         }
+    #         pendingleave.append(d)
+    #         i+=1
+    #     except: 
+    #         break
+  
+    # # print(pendingleave)
+
+    
+
+    # for json_list in pendingleave:
+    #     if json_list['subject_id'] == WfRequestId:
+    #         leave_details={
+    #         "Leave Request ID":json_list['subject_id'],
+    #         "Employee Name":json_list['subject_name'],
+    #         "Leave Duration":json_list['leave_duration'],
+    #         "Leave Type":json_list['leave_type']
+    #         }
+    #         # leave_details.append(d)
+    #         break
+        
+    # print(leave_details)
+
+    # return leave_details
+
 
     username = 'kaaradmin@qatarprimaT1'
     password = 'Qpmc@456'
@@ -328,39 +363,192 @@ def Leave_Request_SF_Details(WfRequestId):
     js_obj = json.loads(js)
     flatjs = flatten(js_obj)
 
-    pendingleave=[]
+    pendingleave={}
     i=0 
     while True:
         try:
             d={
-            'subject_id':flatjs[f'feed_entry_content_m:properties_d:todos_d:element_d:entries_d:element_{i}_d:subjectId']+"L",
-            'subject_name':pick_name_from_sentence(flatjs[f'feed_entry_content_m:properties_d:todos_d:element_d:entries_d:element_{i}_d:subjectFullName']),
-            'leave_duration': extract_date_from_sentence(flatjs[f'feed_entry_content_m:properties_d:todos_d:element_d:entries_d:element_{i}_d:subjectFullName']),
-            'leave_type': words_before_parenthesis(flatjs[f'feed_entry_content_m:properties_d:todos_d:element_d:entries_d:element_{i}_d:subjectFullName'])
+            'Leave Request ID':flatjs[f'feed_entry_content_m:properties_d:todos_d:element_d:entries_d:element_{i}_d:subjectId']+"L",
+            'Employee Name':pick_name_from_sentence(flatjs[f'feed_entry_content_m:properties_d:todos_d:element_d:entries_d:element_{i}_d:subjectFullName']),
+            'Leave Duration': extract_date_from_sentence(flatjs[f'feed_entry_content_m:properties_d:todos_d:element_d:entries_d:element_{i}_d:subjectFullName']),
+            'Leave Type': words_before_parenthesis(flatjs[f'feed_entry_content_m:properties_d:todos_d:element_d:entries_d:element_{i}_d:subjectFullName'])
             }
-            pendingleave.append(d)
+            pendingleave[d['Leave Request ID']]=d
             i+=1
         except: 
             break
   
-    # print(pendingleave)
-
-    
-
-    for json_list in pendingleave:
-        if json_list['subject_id'] == WfRequestId:
-            leave_details={
-            "Leave Request ID":json_list['subject_id'],
-            "Employee Name":json_list['subject_name'],
-            "Leave Duration":json_list['leave_duration'],
-            "Leave Type":json_list['leave_type']
-            }
-            # leave_details.append(d)
-            break
-        
-    print(leave_details)
-
-    return leave_details
+    return pendingleave[f'{WfRequestId}']
 
 
 # ****************************************** fetching pending leave request Details ******************************************
+
+
+# ****************************************** accepting pending leave from SF *****************************************************
+
+def Accept_leave_req_SF(WfRequestId):
+    
+
+    db = client["QPMC_RasaChatbot"]
+    collection = db["Approved_Leave"]
+    
+    data = Leave_Request_SF_Details(WfRequestId)
+
+    # Set the SAP URL and credentials
+    url = f'https://api2preview.sapsf.eu/odata/v2/approveWfRequest?wfRequestId={WfRequestId}&comment=Approved'
+    username = 'kaaradmin@qatarprimaT1'
+    password = 'Qpmc@456'
+    # Create a session and set the authorization header
+    session = requests.Session()
+    session.auth = (username, password)
+    # Send a GET request to the SAP system
+    response = session.post(url)
+    # Print the response status code and content
+    print(response.status_code)
+
+
+
+    if response.status_code == 200:
+        res = f"Leave Request ({WfRequestId}) has been approved"
+        data['Status'] = "Approved"
+
+        print(data)
+
+        result = collection.insert_one(data)
+        print("Leave request approved successfully", result.inserted_id)
+    else:
+        res = f"Leave Request ({WfRequestId}) has been already approved and moved to higher level approver"
+
+    return res
+
+
+
+
+# ****************************************** accepting pending leave from SF *****************************************************
+
+# ****************************************** reject leave from SF ****************************************************
+
+def Reject_leave_req_SF(WfRequestId):
+
+    db = client["QPMC_RasaChatbot"]
+    collection = db["Rejected_Leave"]
+    
+    data = Leave_Request_SF_Details(WfRequestId)
+    
+    # Set the SAP URL and credentials
+    url = f'https://api2preview.sapsf.eu/odata/v2/rejectWfRequest?wfRequestId={WfRequestId}&comment=Rejected'
+    username = 'kaaradmin@qatarprimaT1'
+    password = 'Qpmc@456'
+    # Create a session and set the authorization header
+    session = requests.Session()
+    session.auth = (username, password)
+    # Send a GET request to the SAP system
+    response = session.post(url)
+    # Print the response status code and content
+    print(response)
+
+    if response.status_code == 200:
+        res = f"Leave Request ({WfRequestId}) has been rejected"
+        data['Status'] = "Rejected"
+
+        print(data)
+        
+        result = collection.insert_one(data)
+        print("Leave request rejected:", result.inserted_id)
+
+    else:
+        res = f"Leave Request ({WfRequestId}) has been already rejected"
+
+
+    return res
+
+
+# ****************************************** reject leave from SF ****************************************************
+
+
+
+# ****************************************** api for inserting approved leave request details into mongo ******************************
+
+# def Approved_Leave_Request_SF_Details(WfRequestId):
+    
+#     db = client["QPMC_RasaChatbot"]
+#     collection = db["Approved_Leave"]
+
+#     username = 'kaaradmin@qatarprimaT1'
+#     password = 'Qpmc@456'
+
+#     # extranct date from the sentence
+#     def extract_date_from_sentence(sentence):
+#         pattern = r"\((.*?)\)"  # Regex pattern to match text within parentheses
+#         match = re.search(pattern, sentence)  # Search for the pattern in the sentence
+
+#         if match:
+#             date_within_parentheses = match.group(1)  # Extract the text within parentheses
+#             return date_within_parentheses
+#         else:
+#             return None
+
+#     # extracting words before paranthesis to find Leave Type
+#     def words_before_parenthesis(sentence):
+#         # Find the index of the opening parenthesis
+#         parenthesis_index = sentence.find("(")
+
+#         if parenthesis_index != -1:
+#             words = sentence[:parenthesis_index][:-1]
+#             return words
+#         else:
+#             return None
+
+#     # picking up name from the sentece 
+#     def pick_name_from_sentence(sentence):
+#         colon_index = sentence.find(":")
+        
+#         if colon_index != -1:
+#             words = sentence[colon_index+2:]
+#             return words
+#         else:
+#             return None
+
+#     url = 'https://api2preview.sapsf.eu/odata/v2/Todo?$filter=categoryId%20eq%20%2718%27'
+#     session = requests.Session()
+#     session.auth = (username, password)
+#     # Send a GET request to the SAP system
+#     response = session.get(url)
+#     # Print the response status code and content
+#     obj = response.content
+#     objstr = str(obj, 'UTF-8')
+#     obj2 = xmltodict.parse(objstr)
+#     js = json.dumps(obj2)
+#     js_obj = json.loads(js)
+#     flatjs = flatten(js_obj)
+
+#     pendingleave={}
+#     i=0 
+#     while True:
+#         try:
+#             d={
+#             'subject_id':flatjs[f'feed_entry_content_m:properties_d:todos_d:element_d:entries_d:element_{i}_d:subjectId']+"L",
+#             'subject_name':pick_name_from_sentence(flatjs[f'feed_entry_content_m:properties_d:todos_d:element_d:entries_d:element_{i}_d:subjectFullName']),
+#             'leave_duration': extract_date_from_sentence(flatjs[f'feed_entry_content_m:properties_d:todos_d:element_d:entries_d:element_{i}_d:subjectFullName']),
+#             'leave_type': words_before_parenthesis(flatjs[f'feed_entry_content_m:properties_d:todos_d:element_d:entries_d:element_{i}_d:subjectFullName'])
+#             }
+#             pendingleave[d["subject_id"]]=d
+#             i+=1
+#         except: 
+#             break
+  
+#     # print(pendingleave)
+    
+#     leave_details = pendingleave[f"{WfRequestId}"]
+    
+
+    
+#     result = collection.insert_one(leave_details)
+    
+#     print("ticket raised succesfully Inserted ID:", result.inserted_id)
+    
+#     return leave_details
+
+
+
+# ****************************************** api for inserting approved leave request details into mongo *******************************

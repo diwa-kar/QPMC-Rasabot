@@ -949,9 +949,15 @@ const ChatBot = () => {
                               }}
                               color="error"
                               onClick={(e) => {
-                                handleButtonRequest(
-                                  `Reject PR ${chatContent.details.data["Purchase Requisition Number"]}`
-                                );
+                                console.log(chatContent.details.type);
+                                if (chatContent.details.type == "PR")
+                                  handleButtonRequest(
+                                    `Reject PR ${chatContent.details.data["Purchase Requisition Number"]}`
+                                  );
+                                else if (chatContent.details.type == "PL")
+                                  handleButtonRequest(
+                                    `Reject PL ${chatContent.details.data["Leave Request ID"]}`
+                                  );
                               }}
                             >
                               Reject
