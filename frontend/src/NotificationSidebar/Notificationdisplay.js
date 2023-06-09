@@ -40,6 +40,9 @@ const Notificationdisplay = ({
   ]);
   const [leaveDetail,setLeaveDetail]=useState([]);
   const [ticketdetail,setTicketdetail]=useState([]);
+  const [leavetype,setLeavetype]=useState("");
+  const [leaveduration,setLeaveduration]=useState("");
+  const [leavename,setLeavename]=useState("");
   const getDetails = async () => {
     setDisplayShow(true);
     setDetailData([]);
@@ -50,7 +53,7 @@ const Notificationdisplay = ({
     console.log(selectedItem)
     // selectedItem.type &&
     // selectedItem.type == "Pending Request"
-    if (selectedItem.type=="pending pr"){
+    if (selectedItem.type==="pending pr"|| selectedItem.type === "approved pr" || selectedItem.type === "rejected pr" ){
       uri = "qmpc_pending_pr_item_info"
       try {
         axios
@@ -73,7 +76,7 @@ const Notificationdisplay = ({
       } catch (e) {
         console.log(e);
       }
-    }else if (selectedItem.type=="pending leave"){
+    }else if (selectedItem.type==="pending leave"){
       setDisplayShow(true);
       setLeaveDetail([]);
       setLoader(true);
@@ -90,8 +93,12 @@ const Notificationdisplay = ({
             data.map((data) => {
               for (const [key, value] of Object.entries(data)) {
                 if (key === "Leave Id" && value === selectedItem.value) {
+                  console.log(key,value);
                   leavedets.push(data)
                   console.log(leavedets)
+                  setLeavename(data["Employee Name"]);
+                  setLeaveduration(data["Leave Duration"]);
+                  setLeavetype(data["Leave Type"]);
                 }
               }
               return null
@@ -133,6 +140,74 @@ const Notificationdisplay = ({
       } catch (e) {
         console.log(e);
       }
+    } else if (selectedItem.type==="approved leave"){
+      setDisplayShow(true);
+      setLeaveDetail([]);
+      setLoader(true);
+      uri="qpmc_approved_leave_list_mongo"
+      console.log(selectedItem)
+      try {
+        axios
+          .get(
+            `http://localhost:8000/${uri}`
+          )
+          .then((response) => {
+            const data = response.data;
+            console.log(data.approved_leave_dets)
+            data.approved_leave_dets.map((data) => {
+              for (const [key, value] of Object.entries(data)) {
+                if (key === "Leave Id" && value === selectedItem.value) {
+                  console.log(key,value);
+                  leavedets.push(data)
+                  console.log(leavedets)
+                  setLeavename(data["Employee Name"]);
+                  setLeaveduration(data["Leave Duration"]);
+                  setLeavetype(data["Leave Type"]);
+                }
+              }
+              return null
+            })
+            setLeaveDetail(leavedets);
+            setLoader(false);
+          })
+          .catch((error) => console.log(`Error in Axios ${error}`));
+      } catch (e) {
+        console.log(e);
+      }
+    } else if (selectedItem.type==="rejected leave"){
+      setDisplayShow(true);
+      setLeaveDetail([]);
+      setLoader(true);
+      uri="qpmc_rejected_leave_list_mongo"
+      console.log(selectedItem)
+      try {
+        axios
+          .get(
+            `http://localhost:8000/${uri}`
+          )
+          .then((response) => {
+            const data = response.data;
+            console.log(data.rejected_leave_dets)
+            data.rejected_leave_dets.map((data) => {
+              for (const [key, value] of Object.entries(data)) {
+                if (key === "Leave Id" && value === selectedItem.value) {
+                  console.log(key,value);
+                  leavedets.push(data)
+                  console.log(leavedets)
+                  setLeavename(data["Employee Name"]);
+                  setLeaveduration(data["Leave Duration"]);
+                  setLeavetype(data["Leave Type"]);
+                }
+              }
+              return null
+            })
+            setLeaveDetail(leavedets);
+            setLoader(false);
+          })
+          .catch((error) => console.log(`Error in Axios ${error}`));
+      } catch (e) {
+        console.log(e);
+      }
     }
   };
   useEffect(() => {
@@ -141,6 +216,9 @@ const Notificationdisplay = ({
 
   useEffect(() => {
     setDetailData([]);
+    setDisplayShow(false);
+    setLeaveDetail([]);
+    setTicketdetail([]);
   }, [tab]);
 
   function approveRequest() {
@@ -170,7 +248,7 @@ const Notificationdisplay = ({
       try {
         axios
           .get(
-            `http://localhost:8000/qpmc_accept_leave_reuqest_sf?WfRequestId=${selectedItem.value}L`
+            `http://localhost:8000/qpmc_accept_leave_reuqest_sf?WfRequestId=${selectedItem.value}L&name=${leavename}&type=${leavetype}&duration=${leaveduration}`
           )
           .then((response) => {
             const data = response.data;
@@ -217,7 +295,7 @@ const Notificationdisplay = ({
       try {
         axios
           .get(
-            `http://localhost:8000/qmpc_reject_leave_request_sf?WfRequestId=${selectedItem.value}L`
+            `http://localhost:8000/qmpc_reject_leave_request_sf?WfRequestId=${selectedItem.value}Lname=${leavename}&type=${leavetype}&duration=${leaveduration}`
           )
           .then((response) => {
             const data = response.data;
@@ -252,7 +330,7 @@ const Notificationdisplay = ({
         <></>
       )}
 
-      {(detailData.length > 0 || leaveDetail.length > 0) && tab == "Pending" ? (
+      {(detailData.length > 0) && tab == "Pending" ? (
         <div className="Notificataion-display-buttons">
           <Button
             variant={"contained"}
@@ -300,7 +378,7 @@ const Notificationdisplay = ({
       ) : (
         <></>
       )}
-      {detailData.length > 0 && selectedItem.type==="pending pr" ? (
+      {detailData.length > 0 && (selectedItem.type==="pending pr" || selectedItem.type==="approved pr" || selectedItem.type==="rejected pr") ? (
         <div className="Notificataion-display-content">
           {detailData.map((data, index) => {
             return (
@@ -308,7 +386,7 @@ const Notificationdisplay = ({
                 className="Notificataion-display-detail"
                 key={index}
                 style={{
-                  background: tab=='Pending' ? "#fffdf6": tab=='Approved'?"#f3fffc":"#fff7f7",
+                  background: tab=='Pending' ? "#fffdf6": tab=='Approved'?"#EFFFEE":"#FFEEEE",
                   boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px"
                   // marginBottom: detailData.length == index + 1 ? "20px" : "0px",
                 }}
@@ -347,15 +425,16 @@ const Notificationdisplay = ({
       ) : (
         <></>
       )}
-      {leaveDetail.length > 0 && selectedItem.type==="pending leave" ? (
+      {leaveDetail.length > 0 && selectedItem.type==="pending leave" || selectedItem.type==="approved leave" || selectedItem.type==="rejected leave"? (
+        <div>
         <div className="Notificataion-display-content">
           {leaveDetail.map((data, index) => {
             return (
               <div
-                className="Notificataion-display-detail"
+                className="Notificataion-display-detail-leave"
                 key={index}
                 style={{
-                  background: tab=='Pending' ? "#EBF2F4": tab=='Approved'?"#f3fffc":"#fff7f7",
+                  background: tab=='Pending' ? "#EBF2F4": tab=='Approved'?"#EFFFEE":"#FFEEEE",
                   boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px"
                   // marginBottom: detailData.length == index + 1 ? "20px" : "0px",
                 }}
@@ -391,15 +470,110 @@ const Notificationdisplay = ({
             );
           })}
         </div>
+        {selectedItem.type==="pending leave" && 
+        <div className="Notificataion-display-buttons-leave">
+          <Button
+            variant={"contained"}
+            size="medium"
+            sx={{
+              backgroundColor: "#1b5e20",
+              fontWeight: "bold",
+            }}
+            style={{
+              margin: "5px 0px",
+              textTransform: "capitalize",
+              letterSpacing: "1px",
+              fontSize: "11px",
+              fontWeight: "550",
+              width: "12%",
+              fontWeight: "700",
+              marginRight: "20px",
+            }}
+            color="success"
+            onClick={() => approveRequest()}
+          >
+            Approve
+          </Button>
+          <Button
+            variant={"contained"}
+            size="medium"
+            sx={{
+              backgroundColor: "#c62828",
+            }}
+            style={{
+              margin: "5px 0px",
+              textTransform: "capitalize",
+              letterSpacing: "1px",
+              fontSize: "11px",
+              fontWeight: "550",
+              width: "12%",
+              fontWeight: "700",
+            }}
+            color="error"
+            onClick={() => rejectRequest()}
+          >
+            Reject
+          </Button>
+        </div>
+        }
+        </div>
       ) : (
         <></>
       )}
+      {/* {(leaveDetail.length > 0) && tab == "Pending" ? (
+        <div className="Notificataion-display-buttons-leave">
+          <Button
+            variant={"contained"}
+            size="medium"
+            sx={{
+              backgroundColor: "#1b5e20",
+              fontWeight: "bold",
+            }}
+            style={{
+              margin: "5px 0px",
+              textTransform: "capitalize",
+              letterSpacing: "1px",
+              fontSize: "11px",
+              fontWeight: "550",
+              width: "12%",
+              fontWeight: "700",
+              marginRight: "20px",
+            }}
+            color="success"
+            onClick={() => approveRequest()}
+          >
+            Approve
+          </Button>
+          <Button
+            variant={"contained"}
+            size="medium"
+            sx={{
+              backgroundColor: "#c62828",
+            }}
+            style={{
+              margin: "5px 0px",
+              textTransform: "capitalize",
+              letterSpacing: "1px",
+              fontSize: "11px",
+              fontWeight: "550",
+              width: "12%",
+              fontWeight: "700",
+            }}
+            color="error"
+            onClick={() => rejectRequest()}
+          >
+            Reject
+          </Button>
+        </div>
+      ) : (
+        <></>
+      )} */}
       {ticketdetail.length > 0 && selectedItem.type==="it ticket" ? (
         <div className="Notificataion-display-content">
           {ticketdetail.map((data, index) => {
             return (
               <div
-                className="Notificataion-display-detail"
+                className="Notificataion-display-detail-leave"
                 key={index}
                 style={{
                   background: tab=='Pending' ? "#E9E9DF": tab=='Approved'?"#f3fffc":"#fff7f7",

@@ -8,9 +8,9 @@ const NotificationItem = (props) => {
   },[])
 
   const handleItemClick = (index, card) => {
-    if (card.type == "pending pr") {
+    if (card.type == "pending pr" || card.type == "approved pr" || card.type == "rejected pr") {
       props.updateIt(props.cardItems[index]);
-    }else if (card.type == "pending leave") {
+    }else if (card.type == "pending leave" || card.type == "approved leave" || card.type == "rejected leave") {
       // console.log(card);
       props.updateIt(card);
     }else if (card.type == "it ticket") {
