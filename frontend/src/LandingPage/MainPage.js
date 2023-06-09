@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, createContext } from "react";
 import "../App.css";
 import Sidebar from "../Sidebar/Sidebar";
 import MiddleNavbar from "../NotificationSidebar/MiddleNavbar";
@@ -8,11 +8,14 @@ import NotificationItem from "../NotificationSidebar/NotificationItem";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+export const ValueContext = createContext(null);
+
 function MainPage(props) {
   const [selectedItem, setSelectedItem] = useState([]);
   const [activeTab, setActiveTab] = useState("Pending");
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [displayShow, setDisplayShow] = useState(false);
+  const [showTab,setShowtab] = useState(false);
   const [cards, setCards] = useState([
     // {
     //   type: "Pending Request",
@@ -40,6 +43,7 @@ function MainPage(props) {
     setDisplayShow(false);
   }, [activeTab]);
   return (
+    <ValueContext.Provider value={{showTab,setShowtab}}>
     <div className="App">
       <ToastContainer
         autoClose={2000}
@@ -71,6 +75,7 @@ function MainPage(props) {
         setDisplayShow={setDisplayShow}
       />
     </div>
+    </ValueContext.Provider>
   );
 }
 

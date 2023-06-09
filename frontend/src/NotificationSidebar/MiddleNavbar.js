@@ -1,14 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import NotificationItem from "./NotificationItem";
 import PuffLoader from "react-spinners/PuffLoader";
 import { Form } from "reactstrap";
 import { values } from "lodash";
+import { ValueContext } from "../LandingPage/MainPage";
 
 const MiddleNavbar = (props) => {
   const [iconState, setIconState] = useState("fa fa-search");
 
   const [isSearchMode, setIsSearchMode] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  const showTab= useContext(ValueContext)
 
   const makeAPICall = async () => {
     let uri = "";
@@ -76,6 +78,7 @@ const MiddleNavbar = (props) => {
         // console.log(it_tickets);
         // console.log(it_tickets.concat(pending_prlist.concat(pending_leave)))
         props.setCards(it_tickets.concat(pending_prlist.concat(pending_leave)))
+        showTab.setShowtab(true);
       } catch (e) {
         console.log(e);
       }
