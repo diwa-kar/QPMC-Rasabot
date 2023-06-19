@@ -30,7 +30,7 @@ import Chart from "react-apexcharts";
 
 const ChatBot = () => {
   const [chat, setChat] = useState([
-    {
+ /*    {
       sender: "bot",
       sender_id: "Name",
       msg: "Hi I am a ChatBot. How may I help you?!",
@@ -68,7 +68,7 @@ const ChatBot = () => {
           value: "458790",
         },
       ],
-    },
+    }, */
   ]);
   const [inputMessage, setInputMessage] = useState("");
   const [botTyping, setBotTyping] = useState(false);
@@ -926,7 +926,7 @@ const ChatBot = () => {
                                   );
                                 else if (chatContent.details.type == "PL")
                                   handleButtonRequest(
-                                    `Approve PL ${chatContent.details.data["Leave Request ID"]}`
+                                    `Approve PL ${chatContent.details.data["Leave Id"]}`
                                   );
                               }}
                             >
@@ -956,7 +956,7 @@ const ChatBot = () => {
                                   );
                                 else if (chatContent.details.type == "PL")
                                   handleButtonRequest(
-                                    `Reject PL ${chatContent.details.data["Leave Request ID"]}`
+                                    `Reject PL ${chatContent.details.data["Leave Id"]}`
                                   );
                               }}
                             >

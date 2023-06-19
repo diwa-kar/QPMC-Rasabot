@@ -368,15 +368,17 @@ def Leave_Request_SF_Details(WfRequestId):
     while True:
         try:
             d={
-            'Leave Request ID':flatjs[f'feed_entry_content_m:properties_d:todos_d:element_d:entries_d:element_{i}_d:subjectId']+"L",
+            'Leave Id':flatjs[f'feed_entry_content_m:properties_d:todos_d:element_d:entries_d:element_{i}_d:subjectId']+"L",
             'Employee Name':pick_name_from_sentence(flatjs[f'feed_entry_content_m:properties_d:todos_d:element_d:entries_d:element_{i}_d:subjectFullName']),
             'Leave Duration': extract_date_from_sentence(flatjs[f'feed_entry_content_m:properties_d:todos_d:element_d:entries_d:element_{i}_d:subjectFullName']),
             'Leave Type': words_before_parenthesis(flatjs[f'feed_entry_content_m:properties_d:todos_d:element_d:entries_d:element_{i}_d:subjectFullName'])
             }
-            pendingleave[d['Leave Request ID']]=d
+            pendingleave[d['Leave Id']]=d
             i+=1
         except: 
             break
+    
+    print(pendingleave)
   
     return pendingleave[f'{WfRequestId}']
 

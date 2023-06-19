@@ -123,9 +123,9 @@ const ITform = (props) => {
                         .then((response) => {
                         const data = response.data;
                         console.log(data);
-                        setTickettype(null);
-                        setInch(null);
-                        setHwtype(null);
+                        setTickettype("");
+                        setInch("");
+                        setHwtype("");
                         })
                         .catch((error) => console.log(`Error in Axios ${error}`));
                     } catch (e) {
@@ -140,9 +140,9 @@ const ITform = (props) => {
                         .then((response) => {
                         const data = response.data;
                         console.log(data);
-                        setTickettype(null);
-                        setInch(null);
-                        setHwtype(null);
+                        setTickettype("");
+                        setInch("");
+                        setHwtype("");
                         })
                         .catch((error) => console.log(`Error in Axios ${error}`));
                     } catch (e) {
