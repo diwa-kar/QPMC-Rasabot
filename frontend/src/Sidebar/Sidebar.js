@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useContext } from "react";
 import QPMCLogo from "./qpmc-logo.png";
 import {
   CDBSidebar,
@@ -8,10 +8,21 @@ import {
   CDBSidebarMenuItem,
 } from "cdbreact";
 import { NavLink } from "react-router-dom";
+import { ValueContext } from "../LandingPage/MainPage";
+import { Snackbar,Alert } from "@mui/material";
 
 const Sidebar = ({ setTab, tab, setIsOpen, isOpen }) => {
+  const [open,setOpen] = useState(false);
+  const showTab= useContext(ValueContext)
   const toggleNavbar = () => {
     setIsOpen(!isOpen);
+  };
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
   };
   return (
     <div className="sidebar">
@@ -44,7 +55,7 @@ const Sidebar = ({ setTab, tab, setIsOpen, isOpen }) => {
           style={{
             color: tab == "Approved" ? "#820000" : "#000",
           }}
-          onClick={() => setTab("Approved")}
+          onClick={showTab.showTab === true ? () => setTab("Approved") : () => setOpen(true)}
         >
           <i class="fa-solid fa-check-to-slot"></i>
           <span>APPROVED</span>
@@ -54,7 +65,7 @@ const Sidebar = ({ setTab, tab, setIsOpen, isOpen }) => {
           style={{
             color: tab == "Rejected" ? "#820000" : "#000",
           }}
-          onClick={() => setTab("Rejected")}
+          onClick={showTab.showTab === true ? () => setTab("Rejected") : () => setOpen(true)}
         >
           <i class="fa-solid fa-rectangle-xmark"></i>
           {/* <svg
@@ -188,6 +199,11 @@ const Sidebar = ({ setTab, tab, setIsOpen, isOpen }) => {
           <span>REJECTED</span>
         </div>
       </div>
+      <Snackbar open={open} autoHideDuration={2000} onClose={handleClose}>
+          <Alert onClose={handleClose} variant="filled" severity="warning" elevation={6} sx={{ width: '100%' }}>
+              Loading, Just a moment
+          </Alert>
+      </Snackbar>
     </div>
   );
 };

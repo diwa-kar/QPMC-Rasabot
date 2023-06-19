@@ -8,7 +8,6 @@ import { toast } from "react-toastify";
 import PuffLoader from "react-spinners/PuffLoader";
 import Button from "@mui/material/Button";
 import { cloneWith } from "lodash";
-
 const Notificationdisplay = ({
   selectedItem,
   isSidebarOpen,
